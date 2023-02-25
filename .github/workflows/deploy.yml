@@ -28,6 +28,19 @@ jobs:
         run: npm ci
       - name: Building site
         run: npm run build
+      - name: Commit files
+        id: auto-commit-action
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: build project for github pages
+      - name: Push changes
+        if: steps.auto-commit-action.outputs.changes_detected == 'true'
+        uses: ad-m/github-push-action@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: No changes detected
+        if: steps.auto-commit-action.outputs.changes_detected == 'false'
+        run: echo "No changes!"
       - name: Checkout
         uses: actions/checkout@v3
       - name: Setup Pages
