@@ -1,0 +1,30 @@
+{
+  "name": "aproksha-iiita",
+  "version": "1.0.0",
+  "description": "",
+  "source": "src/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aparoksha-IIITA/Aproksha-IIITA.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aparoksha-IIITA/Aproksha-IIITA/issues"
+  },
+  "homepage": "https://github.com/Aparoksha-IIITA/Aproksha-IIITA#readme",
+  "devDependencies": {
+    "parcel": "^2.8.3",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.2.7"
+  },
+  "dependencies": {
+    "three": "^0.150.0"
+  }
+}
