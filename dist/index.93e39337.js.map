@@ -1,0 +1,1 @@
+{"mappings":"AAEeA,SAASC,eAAe","sources":["src/script/index.js"],"sourcesContent":["import * as THREE from \"three\";\n\nconst canvas = document.getElementById(\"canvas\");\n"],"names":["document","getElementById"],"version":3,"file":"index.93e39337.js.map"}
