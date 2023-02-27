@@ -631,7 +631,7 @@ function index() {
 }
 exports.default = index;
 
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../smooth_scroll_manager/SmoothScrollManager":"1igPU","./bgEffect":"c7FC0","@ykob/js-util":"cxomY"}],"ktPTu":[function(require,module,exports) {
+},{"three":"ktPTu","../smooth_scroll_manager/SmoothScrollManager":"1igPU","@ykob/js-util":"cxomY","./bgEffect":"c7FC0","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktPTu":[function(require,module,exports) {
 /**
  * @license
  * Copyright 2010-2023 Three.js Authors
@@ -36684,7 +36684,7 @@ class BGEffect {
 }
 exports.default = BGEffect;
 
-},{"2375bb112e483be3":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","1943106b328b5c89":"gjo3o","acf1a54e7302e2a3":"fho61"}],"gjo3o":[function(require,module,exports) {
+},{"2375bb112e483be3":"ktPTu","1943106b328b5c89":"gjo3o","acf1a54e7302e2a3":"fho61","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"gjo3o":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nattribute vec3 position;\nattribute vec2 uv;\n\nvarying vec2 vUv;\n\nvoid main() {\n  vUv = uv;\n  gl_Position = vec4(position, 1.0);\n}";
 
 },{}],"fho61":[function(require,module,exports) {
