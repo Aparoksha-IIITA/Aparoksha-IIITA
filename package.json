@@ -31,6 +31,7 @@
     "gl-matrix": "^3.4.3",
     "glsl-inverse": "^1.0.0",
     "glsl-noise": "^0.0.0",
-    "three": "^0.150.0"
+    "three": "^0.150.0",
+    "three-addons": "^1.2.0"
   }
 }

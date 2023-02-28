@@ -2,7 +2,7 @@ import * as THREE from "three";
 import SmoothScrollManager from "../smooth_scroll_manager/SmoothScrollManager";
 import { debounce } from "@ykob/js-util";
 import BGEffect from "./bgEffect";
-
+import Debris from "./pyramid";
 export default function index() {
   const scrollManager = new SmoothScrollManager();
 
@@ -25,6 +25,7 @@ export default function index() {
     10000
   );
   const clock = new THREE.Clock();
+  const debris = [new Debris(0, 100, -100)];
   const bgEffect = new BGEffect(renderBack.texture);
 
   const resizeWindow = () => {
@@ -39,9 +40,12 @@ export default function index() {
 
   const render = () => {
     const time = clock.getDelta();
+    bgEffect.render(time);
+    for (var i = 0; i < debris.length; i++) {
+      debris[i].render(time);
+    }
     renderer.setRenderTarget(renderBack);
     renderer.render(sceneBack, cameraBack);
-    bgEffect.render(time);
     renderer.setRenderTarget(null);
     renderer.render(scene, camera);
   };
@@ -73,6 +77,9 @@ export default function index() {
     cameraBack.position.z = 800;
 
     scene.add(bgEffect.obj);
+    for (var i = 0; i < debris.length; i++) {
+      sceneBack.add(debris[i].obj);
+    }
 
     clock.start();
 

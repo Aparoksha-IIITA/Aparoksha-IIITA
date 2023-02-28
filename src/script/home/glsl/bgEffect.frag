@@ -9,10 +9,10 @@ varying vec2 vUv;
 const float duration = 8.0;
 const float delay = 4.0;
 
-#pragma glslify: cnoise3 = require(glsl-noise/classic/3d)
+#pragma glslify: cnoise3 = require(glsl-noise/classic/3d);
 #pragma glslify: random = require(@ykob/glsl-util/src/random);
 #pragma glslify: convertHsvToRgb = require(@ykob/glsl-util/src/convertHsvToRgb);
-#pragma glslify: varyColor = require(../../common/glsl/varyColor.glsl)
+#pragma glslify: varyColor = require(../../common/glsl/varyColor.glsl);
 
 void main() {
   float now = clamp((time - delay) / duration, 0.0, 1.0);
@@ -31,9 +31,12 @@ void main() {
   vec3 vignette = vignetteMask * vignetteColor * 0.1;
 
   // RGB
-  float r = texture2D(texture, vUv - vec2(2.0, 0.0) / resolution).r;
+  // float r = texture2D(texture, vUv - vec2(2.0, 0.0) / resolution).r;
+  float r = texture2D(texture, vUv).r;
   float g = texture2D(texture, vUv).g;
-  float b = texture2D(texture, vUv + vec2(2.0, 0.0) / resolution).b;
+  // float b = texture2D(texture, vUv + vec2(2.0, 0.0) / resolution).b;
+  float b = texture2D(texture, vUv).b;
+
 
   gl_FragColor = vec4((vec3(r, g, b) + whiteNoise) + monitor + vignette, 1.0);
 }
