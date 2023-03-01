@@ -577,7 +577,7 @@ var _pyramidDefault = parcelHelpers.interopDefault(_pyramid);
 function index() {
     const scrollManager = new (0, _smoothScrollManagerDefault.default)();
     const canvas = document.getElementById("canvas");
-    const renderer = new _three.WebGL1Renderer({
+    const renderer = new _three.WebGLRenderer({
         antialias: false,
         canvas: canvas
     });
@@ -588,9 +588,17 @@ function index() {
     const cameraBack = new _three.PerspectiveCamera(45, document.body.clientWidth / window.innerHeight, 1, 10000);
     const clock = new _three.Clock();
     const debris = [
-        new (0, _pyramidDefault.default)(0, 100, -100)
+        new (0, _pyramidDefault.default)(-100, 100, -100),
+        new (0, _pyramidDefault.default)(100, 300, -200),
+        new (0, _pyramidDefault.default)(500, -100, -400)
     ];
+    const debrisRands = [];
+    for(var i = 0; i < 4 * debris.length; i++)debrisRands[i] = Math.random() * 2 - 1;
     const bgEffect = new (0, _bgEffectDefault.default)(renderBack.texture);
+    const ambientLight = new _three.AmbientLight(0x33333);
+    const directionalLight = new _three.DirectionalLight(0xbf287f);
+    directionalLight.position.set(-400, -200, 300);
+    // const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 50);
     const resizeWindow = ()=>{
         canvas.width = document.body.clientWidth;
         canvas.height = window.innerHeight;
@@ -603,7 +611,12 @@ function index() {
     const render = ()=>{
         const time = clock.getDelta();
         bgEffect.render(time);
-        for(var i = 0; i < debris.length; i++)debris[i].render(time);
+        for(var i = 0; i < debris.length; i++){
+            debris[i].obj.rotateX(Math.PI * time * debrisRands[4 * i] * debrisRands[4 * i + 3] / 5);
+            debris[i].obj.rotateY(Math.PI * time * debrisRands[4 * i + 1] * debrisRands[4 * i + 3] / 5);
+            debris[i].obj.rotateZ(Math.PI * time * debrisRands[4 * i + 2] * debrisRands[4 * i + 3] / 5);
+            debris[i].render(time);
+        }
         renderer.setRenderTarget(renderBack);
         renderer.render(sceneBack, cameraBack);
         renderer.setRenderTarget(null);
@@ -628,6 +641,9 @@ function index() {
         cameraBack.position.z = 800;
         scene.add(bgEffect.obj);
         for(var i = 0; i < debris.length; i++)sceneBack.add(debris[i].obj);
+        sceneBack.add(ambientLight);
+        sceneBack.add(directionalLight);
+        // sceneBack.add(dLightHelper);
         clock.start();
         on();
         resizeWindow();
@@ -36695,7 +36711,7 @@ exports.default = BGEffect;
 module.exports = "#define GLSLIFY 1\nattribute vec3 position;\nattribute vec2 uv;\n\nvarying vec2 vUv;\n\nvoid main() {\n  vUv = uv;\n  gl_Position = vec4(position, 1.0);\n}";
 
 },{}],"fho61":[function(require,module,exports) {
-module.exports = 'precision highp float;\n#define GLSLIFY 1\n\nuniform float time;\nuniform vec2 resolution;\nuniform sampler2D texture;\n\nvarying vec2 vUv;\n\nconst float duration = 8.0;\nconst float delay = 4.0;\n\n//\n// GLSL textureless classic 3D noise "cnoise",\n// with an RSL-style periodic variant "pnoise".\n// Author:  Stefan Gustavson (stefan.gustavson@liu.se)\n// Version: 2011-10-11\n//\n// Many thanks to Ian McEwan of Ashima Arts for the\n// ideas for permutation and gradient selection.\n//\n// Copyright (c) 2011 Stefan Gustavson. All rights reserved.\n// Distributed under the MIT license. See LICENSE file.\n// https://github.com/ashima/webgl-noise\n//\n\nvec3 mod289(vec3 x)\n{\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 mod289(vec4 x)\n{\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 permute(vec4 x)\n{\n  return mod289(((x*34.0)+1.0)*x);\n}\n\nvec4 taylorInvSqrt(vec4 r)\n{\n  return 1.79284291400159 - 0.85373472095314 * r;\n}\n\nvec3 fade(vec3 t) {\n  return t*t*t*(t*(t*6.0-15.0)+10.0);\n}\n\n// Classic Perlin noise\nfloat cnoise(vec3 P)\n{\n  vec3 Pi0 = floor(P); // Integer part for indexing\n  vec3 Pi1 = Pi0 + vec3(1.0); // Integer part + 1\n  Pi0 = mod289(Pi0);\n  Pi1 = mod289(Pi1);\n  vec3 Pf0 = fract(P); // Fractional part for interpolation\n  vec3 Pf1 = Pf0 - vec3(1.0); // Fractional part - 1.0\n  vec4 ix = vec4(Pi0.x, Pi1.x, Pi0.x, Pi1.x);\n  vec4 iy = vec4(Pi0.yy, Pi1.yy);\n  vec4 iz0 = Pi0.zzzz;\n  vec4 iz1 = Pi1.zzzz;\n\n  vec4 ixy = permute(permute(ix) + iy);\n  vec4 ixy0 = permute(ixy + iz0);\n  vec4 ixy1 = permute(ixy + iz1);\n\n  vec4 gx0 = ixy0 * (1.0 / 7.0);\n  vec4 gy0 = fract(floor(gx0) * (1.0 / 7.0)) - 0.5;\n  gx0 = fract(gx0);\n  vec4 gz0 = vec4(0.5) - abs(gx0) - abs(gy0);\n  vec4 sz0 = step(gz0, vec4(0.0));\n  gx0 -= sz0 * (step(0.0, gx0) - 0.5);\n  gy0 -= sz0 * (step(0.0, gy0) - 0.5);\n\n  vec4 gx1 = ixy1 * (1.0 / 7.0);\n  vec4 gy1 = fract(floor(gx1) * (1.0 / 7.0)) - 0.5;\n  gx1 = fract(gx1);\n  vec4 gz1 = vec4(0.5) - abs(gx1) - abs(gy1);\n  vec4 sz1 = step(gz1, vec4(0.0));\n  gx1 -= sz1 * (step(0.0, gx1) - 0.5);\n  gy1 -= sz1 * (step(0.0, gy1) - 0.5);\n\n  vec3 g000 = vec3(gx0.x,gy0.x,gz0.x);\n  vec3 g100 = vec3(gx0.y,gy0.y,gz0.y);\n  vec3 g010 = vec3(gx0.z,gy0.z,gz0.z);\n  vec3 g110 = vec3(gx0.w,gy0.w,gz0.w);\n  vec3 g001 = vec3(gx1.x,gy1.x,gz1.x);\n  vec3 g101 = vec3(gx1.y,gy1.y,gz1.y);\n  vec3 g011 = vec3(gx1.z,gy1.z,gz1.z);\n  vec3 g111 = vec3(gx1.w,gy1.w,gz1.w);\n\n  vec4 norm0 = taylorInvSqrt(vec4(dot(g000, g000), dot(g010, g010), dot(g100, g100), dot(g110, g110)));\n  g000 *= norm0.x;\n  g010 *= norm0.y;\n  g100 *= norm0.z;\n  g110 *= norm0.w;\n  vec4 norm1 = taylorInvSqrt(vec4(dot(g001, g001), dot(g011, g011), dot(g101, g101), dot(g111, g111)));\n  g001 *= norm1.x;\n  g011 *= norm1.y;\n  g101 *= norm1.z;\n  g111 *= norm1.w;\n\n  float n000 = dot(g000, Pf0);\n  float n100 = dot(g100, vec3(Pf1.x, Pf0.yz));\n  float n010 = dot(g010, vec3(Pf0.x, Pf1.y, Pf0.z));\n  float n110 = dot(g110, vec3(Pf1.xy, Pf0.z));\n  float n001 = dot(g001, vec3(Pf0.xy, Pf1.z));\n  float n101 = dot(g101, vec3(Pf1.x, Pf0.y, Pf1.z));\n  float n011 = dot(g011, vec3(Pf0.x, Pf1.yz));\n  float n111 = dot(g111, Pf1);\n\n  vec3 fade_xyz = fade(Pf0);\n  vec4 n_z = mix(vec4(n000, n100, n010, n110), vec4(n001, n101, n011, n111), fade_xyz.z);\n  vec2 n_yz = mix(n_z.xy, n_z.zw, fade_xyz.y);\n  float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);\n  return 2.2 * n_xyz;\n}\n\nfloat random(vec2 c){\n  return fract(sin(dot(c.xy, vec2(12.9898,78.233))) * 43758.5453);\n}\n\nvec3 convertHsvToRgb(vec3 c) {\n  vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n  vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);\n  return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);\n}\n\nvec3 varyColor(float time) {\n    vec3 pink = vec3(0.75, 0.16, 0.50);\n    vec3 blue = vec3(0.05, 0.16, 0.94);\n    return mix(pink, blue, sin(time*0.5));\n}\n\nvoid main() {\n  float now = clamp((time - delay) / duration, 0.0, 1.0);\n\n  // white noise\n  float whiteNoise = random(vUv.xy * time) * 0.1 - 0.1;\n\n  // CRT TV Effect\n  float monitor1 = abs(sin(vUv.y * resolution.y * 2.4 + time * 10.0)) * 0.04;\n  float monitor2 = abs(sin(vUv.y * resolution.y * 1.0 + time * 3.0)) * 0.04;\n  float monitor = monitor1 - monitor2;\n\n  // Vignette\n  float vignetteMask = smoothstep(0.8, 1.4, length(vUv * 2.0 - 1.0));\n  vec3 vignetteColor = varyColor(time);\n  vec3 vignette = vignetteMask * vignetteColor * 0.1;\n\n  // RGB\n  // float r = texture2D(texture, vUv - vec2(2.0, 0.0) / resolution).r;\n  float r = texture2D(texture, vUv).r;\n  float g = texture2D(texture, vUv).g;\n  // float b = texture2D(texture, vUv + vec2(2.0, 0.0) / resolution).b;\n  float b = texture2D(texture, vUv).b;\n\n  gl_FragColor = vec4((vec3(r, g, b) + whiteNoise) + monitor + vignette, 1.0);\n}';
+module.exports = 'precision highp float;\n#define GLSLIFY 1\n\nuniform float time;\nuniform vec2 resolution;\nuniform sampler2D texture;\n\nvarying vec2 vUv;\n\nconst float duration = 8.0;\nconst float delay = 4.0;\n\n//\n// GLSL textureless classic 3D noise "cnoise",\n// with an RSL-style periodic variant "pnoise".\n// Author:  Stefan Gustavson (stefan.gustavson@liu.se)\n// Version: 2011-10-11\n//\n// Many thanks to Ian McEwan of Ashima Arts for the\n// ideas for permutation and gradient selection.\n//\n// Copyright (c) 2011 Stefan Gustavson. All rights reserved.\n// Distributed under the MIT license. See LICENSE file.\n// https://github.com/ashima/webgl-noise\n//\n\nvec3 mod289(vec3 x)\n{\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 mod289(vec4 x)\n{\n  return x - floor(x * (1.0 / 289.0)) * 289.0;\n}\n\nvec4 permute(vec4 x)\n{\n  return mod289(((x*34.0)+1.0)*x);\n}\n\nvec4 taylorInvSqrt(vec4 r)\n{\n  return 1.79284291400159 - 0.85373472095314 * r;\n}\n\nvec3 fade(vec3 t) {\n  return t*t*t*(t*(t*6.0-15.0)+10.0);\n}\n\n// Classic Perlin noise\nfloat cnoise(vec3 P)\n{\n  vec3 Pi0 = floor(P); // Integer part for indexing\n  vec3 Pi1 = Pi0 + vec3(1.0); // Integer part + 1\n  Pi0 = mod289(Pi0);\n  Pi1 = mod289(Pi1);\n  vec3 Pf0 = fract(P); // Fractional part for interpolation\n  vec3 Pf1 = Pf0 - vec3(1.0); // Fractional part - 1.0\n  vec4 ix = vec4(Pi0.x, Pi1.x, Pi0.x, Pi1.x);\n  vec4 iy = vec4(Pi0.yy, Pi1.yy);\n  vec4 iz0 = Pi0.zzzz;\n  vec4 iz1 = Pi1.zzzz;\n\n  vec4 ixy = permute(permute(ix) + iy);\n  vec4 ixy0 = permute(ixy + iz0);\n  vec4 ixy1 = permute(ixy + iz1);\n\n  vec4 gx0 = ixy0 * (1.0 / 7.0);\n  vec4 gy0 = fract(floor(gx0) * (1.0 / 7.0)) - 0.5;\n  gx0 = fract(gx0);\n  vec4 gz0 = vec4(0.5) - abs(gx0) - abs(gy0);\n  vec4 sz0 = step(gz0, vec4(0.0));\n  gx0 -= sz0 * (step(0.0, gx0) - 0.5);\n  gy0 -= sz0 * (step(0.0, gy0) - 0.5);\n\n  vec4 gx1 = ixy1 * (1.0 / 7.0);\n  vec4 gy1 = fract(floor(gx1) * (1.0 / 7.0)) - 0.5;\n  gx1 = fract(gx1);\n  vec4 gz1 = vec4(0.5) - abs(gx1) - abs(gy1);\n  vec4 sz1 = step(gz1, vec4(0.0));\n  gx1 -= sz1 * (step(0.0, gx1) - 0.5);\n  gy1 -= sz1 * (step(0.0, gy1) - 0.5);\n\n  vec3 g000 = vec3(gx0.x,gy0.x,gz0.x);\n  vec3 g100 = vec3(gx0.y,gy0.y,gz0.y);\n  vec3 g010 = vec3(gx0.z,gy0.z,gz0.z);\n  vec3 g110 = vec3(gx0.w,gy0.w,gz0.w);\n  vec3 g001 = vec3(gx1.x,gy1.x,gz1.x);\n  vec3 g101 = vec3(gx1.y,gy1.y,gz1.y);\n  vec3 g011 = vec3(gx1.z,gy1.z,gz1.z);\n  vec3 g111 = vec3(gx1.w,gy1.w,gz1.w);\n\n  vec4 norm0 = taylorInvSqrt(vec4(dot(g000, g000), dot(g010, g010), dot(g100, g100), dot(g110, g110)));\n  g000 *= norm0.x;\n  g010 *= norm0.y;\n  g100 *= norm0.z;\n  g110 *= norm0.w;\n  vec4 norm1 = taylorInvSqrt(vec4(dot(g001, g001), dot(g011, g011), dot(g101, g101), dot(g111, g111)));\n  g001 *= norm1.x;\n  g011 *= norm1.y;\n  g101 *= norm1.z;\n  g111 *= norm1.w;\n\n  float n000 = dot(g000, Pf0);\n  float n100 = dot(g100, vec3(Pf1.x, Pf0.yz));\n  float n010 = dot(g010, vec3(Pf0.x, Pf1.y, Pf0.z));\n  float n110 = dot(g110, vec3(Pf1.xy, Pf0.z));\n  float n001 = dot(g001, vec3(Pf0.xy, Pf1.z));\n  float n101 = dot(g101, vec3(Pf1.x, Pf0.y, Pf1.z));\n  float n011 = dot(g011, vec3(Pf0.x, Pf1.yz));\n  float n111 = dot(g111, Pf1);\n\n  vec3 fade_xyz = fade(Pf0);\n  vec4 n_z = mix(vec4(n000, n100, n010, n110), vec4(n001, n101, n011, n111), fade_xyz.z);\n  vec2 n_yz = mix(n_z.xy, n_z.zw, fade_xyz.y);\n  float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);\n  return 2.2 * n_xyz;\n}\n\nfloat random(vec2 c){\n  return fract(sin(dot(c.xy, vec2(12.9898,78.233))) * 43758.5453);\n}\n\nvec3 convertHsvToRgb(vec3 c) {\n  vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);\n  vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);\n  return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);\n}\n\nvec3 varyColor(float time) {\n    vec3 pink = vec3(0.75, 0.16, 0.50);\n    vec3 blue = vec3(0.05, 0.16, 0.94);\n    return mix(pink, blue, sin(time*0.5));\n}\n// bf287f 0c28ef\n\nvoid main() {\n  float now = clamp((time - delay) / duration, 0.0, 1.0);\n\n  // white noise\n  float whiteNoise = random(vUv.xy * time) * 0.1 - 0.1;\n\n  // CRT TV Effect\n  float monitor1 = abs(sin(vUv.y * resolution.y * 2.4 + time * 10.0)) * 0.04;\n  float monitor2 = abs(sin(vUv.y * resolution.y * 1.0 + time * 3.0)) * 0.04;\n  float monitor = monitor1 - monitor2;\n\n  // Vignette\n  float vignetteMask = smoothstep(0.8, 1.4, length(vUv * 2.0 - 1.0));\n  vec3 vignetteColor = varyColor(time);\n  vec3 vignette = vignetteMask * vignetteColor * 0.1;\n\n  // RGB\n  float r = texture2D(texture, vUv - vec2(2.0, 0.0) / resolution).r;\n  // float r = texture2D(texture, vUv).r;\n  float g = texture2D(texture, vUv).g;\n  float b = texture2D(texture, vUv + vec2(2.0, 0.0) / resolution).b;\n  // float b = texture2D(texture, vUv).b;\n\n  gl_FragColor = vec4((vec3(r, g, b) + whiteNoise) + monitor + vignette, 1.0);\n}';
 
 },{}],"l6XHQ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -36711,13 +36727,13 @@ class Debris {
             },
             rotate: {
                 type: "f",
-                value: Math.random() * 10
+                value: 0
             }
         };
-        this.obj = this.createObj(x, y, z);
-    // this.obj.position.set(x, y, z);
+        this.obj = this.createObj();
+        this.obj.position.set(x, y, z);
     }
-    createObj(x, y, z) {
+    createObj() {
         let pyramidT = new THREE.ConeGeometry(100, 100, 4, 1, true);
         let pyramidB = new THREE.ConeGeometry(100, 100, 4, 1, true);
         pyramidB.rotateX(Math.PI);
@@ -36726,12 +36742,21 @@ class Debris {
             pyramidT,
             pyramidB
         ]);
-        return new THREE.Mesh(doublePyramid, new THREE.RawShaderMaterial({
-            uniforms: this.uniforms,
-            vertexShader: require("f04542e0f3061674"),
-            fragmentShader: require("12bbb28b2ae77c98"),
-            transparent: true,
-            wireframe: true
+        let mat = new THREE.MeshBasicMaterial({
+            color: 0x0000ff,
+            wireframe: false
+        });
+        // return new THREE.Mesh(new THREE.ConeGeometry(100, 100, 4, 1, true), mat);
+        return new THREE.Mesh(doublePyramid, // pyramidT,
+        // new THREE.RawShaderMaterial({
+        //   uniforms: this.uniforms,
+        //   vertexShader: require("./glsl/pyramid.vert"),
+        //   fragmentShader: require("./glsl/pyramid.frag"),
+        //   transparent: true,
+        //   // wireframe: true,
+        // }),
+        new THREE.MeshStandardMaterial({
+            color: 0x7d8cfa
         }));
     }
     render(time) {
@@ -36740,7 +36765,7 @@ class Debris {
 }
 exports.default = Debris;
 
-},{"734a27a7d40fc267":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","three/examples/jsm/utils/BufferGeometryUtils.js":"5o7x9","f04542e0f3061674":"6GZzV","12bbb28b2ae77c98":"3YJSA"}],"5o7x9":[function(require,module,exports) {
+},{"734a27a7d40fc267":"ktPTu","three/examples/jsm/utils/BufferGeometryUtils.js":"5o7x9","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","f04542e0f3061674":"6GZzV","12bbb28b2ae77c98":"3YJSA"}],"5o7x9":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 /**

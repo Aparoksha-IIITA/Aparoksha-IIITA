@@ -10,13 +10,13 @@ export default class Debris {
       },
       rotate: {
         type: "f",
-        value: Math.random() * 10,
+        value: 0,
       },
     };
-    this.obj = this.createObj(x, y, z);
-    // this.obj.position.set(x, y, z);
+    this.obj = this.createObj();
+    this.obj.position.set(x, y, z);
   }
-  createObj(x, y, z) {
+  createObj() {
     let pyramidT = new THREE.ConeGeometry(100, 100, 4, 1, true);
     let pyramidB = new THREE.ConeGeometry(100, 100, 4, 1, true);
     pyramidB.rotateX(Math.PI);
@@ -25,16 +25,22 @@ export default class Debris {
       pyramidT,
       pyramidB,
     ]);
+    let mat = new THREE.MeshBasicMaterial({
+      color: 0x0000ff,
+      wireframe: false,
+    });
+    // return new THREE.Mesh(new THREE.ConeGeometry(100, 100, 4, 1, true), mat);
     return new THREE.Mesh(
       doublePyramid,
-      new THREE.RawShaderMaterial({
-        uniforms: this.uniforms,
-        vertexShader: require("./glsl/pyramid.vert"),
-        fragmentShader: require("./glsl/pyramid.frag"),
-        transparent: true,
-        wireframe: true,
-      })
-      // new THREE.MeshBasicMaterial({color: 0xffff00})
+      // pyramidT,
+      // new THREE.RawShaderMaterial({
+      //   uniforms: this.uniforms,
+      //   vertexShader: require("./glsl/pyramid.vert"),
+      //   fragmentShader: require("./glsl/pyramid.frag"),
+      //   transparent: true,
+      //   // wireframe: true,
+      // }),
+      new THREE.MeshStandardMaterial({ color: 0x7d8cfa })
     );
   }
   render(time) {

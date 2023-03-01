@@ -7,7 +7,7 @@ export default function index() {
   const scrollManager = new SmoothScrollManager();
 
   const canvas = document.getElementById("canvas");
-  const renderer = new THREE.WebGL1Renderer({
+  const renderer = new THREE.WebGLRenderer({
     antialias: false,
     canvas: canvas,
   });
@@ -25,8 +25,21 @@ export default function index() {
     10000
   );
   const clock = new THREE.Clock();
-  const debris = [new Debris(0, 100, -100)];
+  const debris = [
+    new Debris(-100, 100, -100),
+    new Debris(100, 300, -200),
+    new Debris(500, -100, -400),
+  ];
+  const debrisRands = [];
+  for (var i = 0; i < 4 * debris.length; i++) {
+    debrisRands[i] = Math.random() * 2 - 1;
+  }
   const bgEffect = new BGEffect(renderBack.texture);
+
+  const ambientLight = new THREE.AmbientLight(0x33333);
+  const directionalLight = new THREE.DirectionalLight(0xbf287f);
+  directionalLight.position.set(-400, -200, 300);
+  // const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 50);
 
   const resizeWindow = () => {
     canvas.width = document.body.clientWidth;
@@ -42,6 +55,9 @@ export default function index() {
     const time = clock.getDelta();
     bgEffect.render(time);
     for (var i = 0; i < debris.length; i++) {
+      debris[i].obj.rotateX((Math.PI * time * debrisRands[4 * i] * debrisRands[4*i +3]) / 5);
+      debris[i].obj.rotateY((Math.PI * time * debrisRands[4 * i + 1] * debrisRands[4*i +3]) / 5);
+      debris[i].obj.rotateZ((Math.PI * time * debrisRands[4 * i + 2] * debrisRands[4*i +3]) / 5);
       debris[i].render(time);
     }
     renderer.setRenderTarget(renderBack);
@@ -80,7 +96,9 @@ export default function index() {
     for (var i = 0; i < debris.length; i++) {
       sceneBack.add(debris[i].obj);
     }
-
+    sceneBack.add(ambientLight);
+    sceneBack.add(directionalLight);
+    // sceneBack.add(dLightHelper);
     clock.start();
 
     on();
