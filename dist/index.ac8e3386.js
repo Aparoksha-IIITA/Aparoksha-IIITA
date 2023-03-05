@@ -631,7 +631,7 @@ function index() {
 }
 exports.default = index;
 
-},{"three":"ktPTu","@ykob/js-util":"cxomY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./superhero":"9E9g4","./hand":"jc8mC"}],"ktPTu":[function(require,module,exports) {
+},{"three":"ktPTu","@ykob/js-util":"cxomY","./superhero":"9E9g4","./hand":"jc8mC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktPTu":[function(require,module,exports) {
 /**
  * @license
  * Copyright 2010-2023 Three.js Authors
