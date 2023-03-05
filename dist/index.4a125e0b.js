@@ -142,13 +142,13 @@
       this[globalName] = mainExports;
     }
   }
-})({"7xxw3":[function(require,module,exports) {
+})({"fNAwE":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "9d268ac3ac8e3386";
+module.bundle.HMR_BUNDLE_ID = "ab919bad4a125e0b";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, globalThis, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -556,82 +556,161 @@ function hmrAccept(bundle, id) {
     });
 }
 
-},{}],"g54gV":[function(require,module,exports) {
-let page = document.querySelector("body").dataset.page;
-switch(page){
-    case "index":
-        require("a8e6600b6abef9a2").default();
-}
-
-},{"a8e6600b6abef9a2":"5yj01"}],"5yj01":[function(require,module,exports) {
+},{}],"138wq":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
 var _three = require("three");
-var _jsUtil = require("@ykob/js-util");
-var _superhero = require("./superhero");
-var _hand = require("./hand");
-function index() {
-    const canvas = document.getElementById("canvas");
-    const renderer = new _three.WebGLRenderer({
-        antialias: false,
-        canvas: canvas
-    });
-    const scene = new _three.Scene();
-    const camera = new _three.PerspectiveCamera(50, document.body.clientWidth / window.innerHeight, 1, 1000);
-    const clock = new _three.Clock();
-    const ambientLight = new _three.AmbientLight(0x33333);
-    const directionalLightLeft = new _three.DirectionalLight(0x0c28ef);
-    directionalLightLeft.position.set(-700, 200, 300);
-    const directionalLightRight = new _three.DirectionalLight(0xbf287f);
-    directionalLightRight.position.set(400, 200, 300);
-    // const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 50);
-    const superhero = new (0, _superhero.SuperHero)();
-    const hand = new (0, _hand.Hand)();
-    const resizeWindow = ()=>{
-        canvas.width = document.body.clientWidth;
-        canvas.height = window.innerHeight;
-        camera.aspect = document.body.clientWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(document.body.clientWidth, window.innerHeight);
-    };
-    const render = ()=>{
-        const time = clock.getDelta();
-        renderer.render(scene, camera);
-    };
-    const renderLoop = ()=>{
-        render();
-        requestAnimationFrame(renderLoop);
-    };
-    const on = ()=>{
-        window.addEventListener("resize", (0, _jsUtil.debounce)(()=>{
-            resizeWindow();
-        }), 1000);
-    };
-    const init = async ()=>{
-        renderer.setSize(document.body.clientWidth, window.innerHeight);
-        renderer.setClearColor(0x00275e, 1.0);
-        camera.position.z = 800;
-        scene.add(ambientLight);
-        scene.add(directionalLightLeft);
-        scene.add(directionalLightRight);
-        // scene.add(dLightHelper);
-        Promise.all([
-            superhero.createObject(),
-            hand.createObject()
-        ]).then(()=>{
-            scene.add(superhero.obj);
-            scene.add(hand.obj);
-        });
-        clock.start();
-        on();
-        resizeWindow();
-        renderLoop();
-    };
-    init();
+var _images = require("./images");
+var _imagesDefault = parcelHelpers.interopDefault(_images);
+var _vertexGlsl = require("./shaders/vertex.glsl");
+var _vertexGlslDefault = parcelHelpers.interopDefault(_vertexGlsl);
+var _fragmentGlsl = require("./shaders/fragment.glsl");
+var _fragmentGlslDefault = parcelHelpers.interopDefault(_fragmentGlsl);
+function lerp(start, end, t) {
+    return start * (1 - t) + end * t;
 }
-exports.default = index;
+let targetX = 0;
+let targetY = 0;
+const textureOne = new _three.TextureLoader().load((0, _imagesDefault.default).imageOne);
+const textureTwo = new _three.TextureLoader().load((0, _imagesDefault.default).imageTwo);
+const textureThree = new _three.TextureLoader().load((0, _imagesDefault.default).imageThree);
+const textureFour = new _three.TextureLoader().load((0, _imagesDefault.default).imageFour);
+class WebGL {
+    constructor(){
+        this.container = document.querySelector("main");
+        this.links = [
+            ...document.querySelectorAll("li")
+        ];
+        this.scene = new _three.Scene();
+        this.perspective = 1000;
+        this.sizes = new _three.Vector2(0, 0);
+        this.offset = new _three.Vector2(0, 0); // Positions of mesh on screen. Will be updated below.
+        this.uniforms = {
+            uTexture: {
+                value: new _three.TextureLoader().load((0, _imagesDefault.default).imageThree)
+            },
+            uAlpha: {
+                value: 0.0
+            },
+            uOffset: {
+                value: new _three.Vector2(0.0, 0.0)
+            }
+        };
+        this.links.forEach((link, idx)=>{
+            link.addEventListener("mouseenter", ()=>{
+                switch(idx){
+                    case 0:
+                        this.uniforms.uTexture.value = textureOne;
+                        break;
+                    case 1:
+                        this.uniforms.uTexture.value = textureTwo;
+                        break;
+                    case 2:
+                        this.uniforms.uTexture.value = textureThree;
+                        break;
+                    case 3:
+                        this.uniforms.uTexture.value = textureFour;
+                        break;
+                    case 4:
+                        this.uniforms.uTexture.value = textureOne;
+                        break;
+                    case 5:
+                        this.uniforms.uTexture.value = textureTwo;
+                        break;
+                    case 6:
+                        this.uniforms.uTexture.value = textureThree;
+                        break;
+                    case 7:
+                        this.uniforms.uTexture.value = textureFour;
+                        break;
+                }
+            });
+            link.addEventListener("mouseleave", ()=>{
+                this.uniforms.uAlpha.value = lerp(this.uniforms.uAlpha.value, 0.0, 0.1);
+            });
+        });
+        this.addEventListeners(document.querySelector("ul"));
+        this.setUpCamera();
+        this.onMouseMove();
+        this.createMesh();
+        this.render();
+    }
+    get viewport() {
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        let aspectRatio = width / height;
+        return {
+            width,
+            height,
+            aspectRatio
+        };
+    }
+    addEventListeners(element) {
+        element.addEventListener("mouseenter", ()=>{
+            this.linkHovered = true;
+        });
+        element.addEventListener("mouseleave", ()=>{
+            this.linkHovered = false;
+        });
+    }
+    setUpCamera() {
+        window.addEventListener("resize", this.onWindowResize.bind(this));
+        let fov = 180 * (2 * Math.atan(this.viewport.height / 2 / this.perspective)) / Math.PI;
+        this.camera = new _three.PerspectiveCamera(fov, this.viewport.aspectRatio, 0.1, 1000);
+        this.camera.position.set(0, 0, this.perspective);
+        this.renderer = new _three.WebGL1Renderer({
+            antialias: true,
+            alpha: true
+        });
+        this.renderer.setSize(this.viewport.width, this.viewport.height);
+        this.renderer.setPixelRatio(window.devicePixelRatio);
+        this.container.appendChild(this.renderer.domElement);
+    }
+    createMesh() {
+        this.geometry = new _three.PlaneGeometry(1, 1, 20, 20);
+        this.material = new _three.ShaderMaterial({
+            uniforms: this.uniforms,
+            vertexShader: (0, _vertexGlslDefault.default),
+            fragmentShader: (0, _fragmentGlslDefault.default),
+            transparent: true
+        });
+        this.mesh = new _three.Mesh(this.geometry, this.material);
+        this.updateMeshDimensions();
+    }
+    updateMeshDimensions() {
+        this.sizes.set(window.innerWidth / 2, window.innerHeight, 1);
+        this.mesh.scale.set(this.sizes.x, this.sizes.y, 1);
+        this.mesh.position.set(this.offset.x, this.offset.y, 0);
+        this.scene.add(this.mesh);
+    }
+    onWindowResize() {
+        this.camera.aspect = this.viewport.aspectRatio;
+        this.camera.fov = 180 * (2 * Math.atan(this.viewport.height / 2 / this.perspective)) / Math.PI;
+        this.renderer.setSize(this.viewport.width, this.viewport.height);
+        this.updateMeshDimensions();
+        this.camera.updateProjectionMatrix();
+    }
+    onMouseMove() {
+        window.addEventListener("mousemove", (e)=>{
+            targetX = e.clientX;
+            targetY = e.clientY;
+        });
+    }
+    render() {
+        this.offset.x = lerp(this.offset.x, targetX, 0.1);
+        this.offset.y = lerp(this.offset.y, targetY, 0.1);
+        this.uniforms.uOffset.value.set((targetX - this.offset.x) * 0.0005, -(targetY - this.offset.y) * 0.0005);
+        this.mesh.position.set(window.innerWidth / 4, 0, 0);
+        // set uAlpha when list is hovered / unhovered
+        this.linkHovered ? this.uniforms.uAlpha.value = lerp(this.uniforms.uAlpha.value, 1.0, 0.1) : this.uniforms.uAlpha.value = lerp(this.uniforms.uAlpha.value, 0.0, 0.1);
+        for(let i = 0; i < this.links.length; i++)if (this.linkHovered) this.links[i].style.opacity = 0.2;
+        else this.links[i].style.opacity = 1;
+        this.renderer.render(this.scene, this.camera);
+        window.requestAnimationFrame(this.render.bind(this));
+    }
+}
+new WebGL();
 
-},{"three":"ktPTu","@ykob/js-util":"cxomY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./superhero":"9E9g4","./hand":"jc8mC"}],"ktPTu":[function(require,module,exports) {
+},{"three":"ktPTu","./images":"1gTst","./shaders/vertex.glsl":"jJ99X","./shaders/fragment.glsl":"5bODN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktPTu":[function(require,module,exports) {
 /**
  * @license
  * Copyright 2010-2023 Three.js Authors
@@ -30064,624 +30143,29 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"cxomY":[function(require,module,exports) {
+},{}],"1gTst":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "debounce", ()=>(0, _debounceDefault.default));
-parcelHelpers.export(exports, "MathEx", ()=>(0, _mathExDefault.default));
-parcelHelpers.export(exports, "sleep", ()=>(0, _sleepDefault.default));
-parcelHelpers.export(exports, "splitNum", ()=>(0, _splitNumDefault.default));
-parcelHelpers.export(exports, "zeroPadding", ()=>(0, _zeroPaddingDefault.default));
-var _debounce = require("./modules/debounce");
-var _debounceDefault = parcelHelpers.interopDefault(_debounce);
-var _mathEx = require("./modules/MathEx");
-var _mathExDefault = parcelHelpers.interopDefault(_mathEx);
-var _sleep = require("./modules/sleep");
-var _sleepDefault = parcelHelpers.interopDefault(_sleep);
-var _splitNum = require("./modules/splitNum");
-var _splitNumDefault = parcelHelpers.interopDefault(_splitNum);
-var _zeroPadding = require("./modules/zeroPadding");
-var _zeroPaddingDefault = parcelHelpers.interopDefault(_zeroPadding);
+var _1Jpeg = require("../images/1.jpeg");
+var _1JpegDefault = parcelHelpers.interopDefault(_1Jpeg);
+var _2Jpeg = require("../images/2.jpeg");
+var _2JpegDefault = parcelHelpers.interopDefault(_2Jpeg);
+var _3Jpeg = require("../images/3.jpeg");
+var _3JpegDefault = parcelHelpers.interopDefault(_3Jpeg);
+var _4Jpeg = require("../images/4.jpeg");
+var _4JpegDefault = parcelHelpers.interopDefault(_4Jpeg);
+const images = {
+    imageOne: (0, _1JpegDefault.default),
+    imageTwo: (0, _2JpegDefault.default),
+    imageThree: (0, _3JpegDefault.default),
+    imageFour: (0, _4JpegDefault.default)
+};
+exports.default = images;
 
-},{"./modules/debounce":"27ZR5","./modules/MathEx":"5eiOY","./modules/sleep":"eh9fH","./modules/splitNum":"iqAZA","./modules/zeroPadding":"5eTMY","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"27ZR5":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-const debounce = (callback, duration)=>{
-    let timer;
-    return (event)=>{
-        clearTimeout(timer);
-        timer = setTimeout(()=>{
-            callback && callback(event);
-        }, duration);
-    };
-};
-exports.default = debounce;
+},{"../images/1.jpeg":"7lF15","../images/2.jpeg":"hcxes","../images/3.jpeg":"5Dqd0","../images/4.jpeg":"f42Dz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7lF15":[function(require,module,exports) {
+module.exports = require("61cb5abebe38c97e").getBundleURL("eJfUm") + "1.36d9852a.jpeg" + "?" + Date.now();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5eiOY":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "clamp", ()=>clamp);
-parcelHelpers.export(exports, "degrees", ()=>degrees);
-parcelHelpers.export(exports, "mix", ()=>mix);
-parcelHelpers.export(exports, "radians", ()=>radians);
-parcelHelpers.export(exports, "randomArbitrary", ()=>randomArbitrary);
-parcelHelpers.export(exports, "randomInt", ()=>randomInt);
-parcelHelpers.export(exports, "smoothstep", ()=>smoothstep);
-parcelHelpers.export(exports, "spherical", ()=>spherical);
-parcelHelpers.export(exports, "step", ()=>step);
-const clamp = (value, min, max)=>{
-    return Math.min(Math.max(value, min), max);
-};
-const degrees = (radians)=>{
-    return radians / Math.PI * 180;
-};
-const mix = (x0, x1, a)=>{
-    return x0 * (1 - a) + x1 * a;
-};
-const radians = (degrees)=>{
-    return degrees * Math.PI / 180;
-};
-const randomArbitrary = (min, max)=>{
-    return Math.random() * (max - min) + min;
-};
-const randomInt = (min, max)=>{
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-const smoothstep = (e0, e1, x)=>{
-    if (e0 >= e1) return 0;
-    const t = clamp((x - e0) / (e1 - e0), 0, 1);
-    return t * t * (3 - 2 * t);
-};
-const spherical = (radian1, radian2, radius)=>{
-    return [
-        Math.sin(radian1) * Math.cos(radian2) * radius,
-        Math.cos(radian1) * radius,
-        Math.sin(radian1) * Math.sin(radian2) * radius
-    ];
-};
-const step = (e, x)=>{
-    return x >= e ? 1 : 0;
-};
-exports.default = {
-    clamp,
-    degrees,
-    mix,
-    radians,
-    randomArbitrary,
-    randomInt,
-    smoothstep,
-    spherical,
-    step
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eh9fH":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-const sleep = (delay)=>{
-    return new Promise((resolve)=>{
-        setTimeout(resolve, delay);
-    });
-};
-exports.default = sleep;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iqAZA":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-const splitNum = (num)=>{
-    return String(Math.abs(Math.floor(num))).split("").map((o)=>parseInt(o));
-};
-exports.default = splitNum;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5eTMY":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-const zeroPadding = (num, digit)=>{
-    return (Array(digit + 1).join("0") + num).slice(-digit);
-};
-exports.default = zeroPadding;
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9E9g4":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "SuperHero", ()=>SuperHero);
-var _objloader = require("three/examples/jsm/loaders/OBJLoader");
-var _three = require("three");
-let superhero = new URL(require("95b4a0bb45e24f93"));
-class SuperHero {
-    constructor(){
-        this.obj;
-    }
-    async createObject() {
-        let loader = new (0, _objloader.OBJLoader)();
-        const object = await loader.loadAsync(superhero);
-        object.scale.set(300, 300, 300);
-        object.position.set(430, -1500, 0);
-        object.rotateY(-0.43);
-        this.obj = object;
-    }
-}
-
-},{"three/examples/jsm/loaders/OBJLoader":"htIhD","three":"ktPTu","95b4a0bb45e24f93":"1FvOj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"htIhD":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "OBJLoader", ()=>OBJLoader);
-var _three = require("three");
-// o object_name | g group_name
-const _object_pattern = /^[og]\s*(.+)?/;
-// mtllib file_reference
-const _material_library_pattern = /^mtllib /;
-// usemtl material_name
-const _material_use_pattern = /^usemtl /;
-// usemap map_name
-const _map_use_pattern = /^usemap /;
-const _face_vertex_data_separator_pattern = /\s+/;
-const _vA = new (0, _three.Vector3)();
-const _vB = new (0, _three.Vector3)();
-const _vC = new (0, _three.Vector3)();
-const _ab = new (0, _three.Vector3)();
-const _cb = new (0, _three.Vector3)();
-const _color = new (0, _three.Color)();
-function ParserState() {
-    const state = {
-        objects: [],
-        object: {},
-        vertices: [],
-        normals: [],
-        colors: [],
-        uvs: [],
-        materials: {},
-        materialLibraries: [],
-        startObject: function(name, fromDeclaration) {
-            // If the current object (initial from reset) is not from a g/o declaration in the parsed
-            // file. We need to use it for the first parsed g/o to keep things in sync.
-            if (this.object && this.object.fromDeclaration === false) {
-                this.object.name = name;
-                this.object.fromDeclaration = fromDeclaration !== false;
-                return;
-            }
-            const previousMaterial = this.object && typeof this.object.currentMaterial === "function" ? this.object.currentMaterial() : undefined;
-            if (this.object && typeof this.object._finalize === "function") this.object._finalize(true);
-            this.object = {
-                name: name || "",
-                fromDeclaration: fromDeclaration !== false,
-                geometry: {
-                    vertices: [],
-                    normals: [],
-                    colors: [],
-                    uvs: [],
-                    hasUVIndices: false
-                },
-                materials: [],
-                smooth: true,
-                startMaterial: function(name, libraries) {
-                    const previous = this._finalize(false);
-                    // New usemtl declaration overwrites an inherited material, except if faces were declared
-                    // after the material, then it must be preserved for proper MultiMaterial continuation.
-                    if (previous && (previous.inherited || previous.groupCount <= 0)) this.materials.splice(previous.index, 1);
-                    const material = {
-                        index: this.materials.length,
-                        name: name || "",
-                        mtllib: Array.isArray(libraries) && libraries.length > 0 ? libraries[libraries.length - 1] : "",
-                        smooth: previous !== undefined ? previous.smooth : this.smooth,
-                        groupStart: previous !== undefined ? previous.groupEnd : 0,
-                        groupEnd: -1,
-                        groupCount: -1,
-                        inherited: false,
-                        clone: function(index) {
-                            const cloned = {
-                                index: typeof index === "number" ? index : this.index,
-                                name: this.name,
-                                mtllib: this.mtllib,
-                                smooth: this.smooth,
-                                groupStart: 0,
-                                groupEnd: -1,
-                                groupCount: -1,
-                                inherited: false
-                            };
-                            cloned.clone = this.clone.bind(cloned);
-                            return cloned;
-                        }
-                    };
-                    this.materials.push(material);
-                    return material;
-                },
-                currentMaterial: function() {
-                    if (this.materials.length > 0) return this.materials[this.materials.length - 1];
-                    return undefined;
-                },
-                _finalize: function(end) {
-                    const lastMultiMaterial = this.currentMaterial();
-                    if (lastMultiMaterial && lastMultiMaterial.groupEnd === -1) {
-                        lastMultiMaterial.groupEnd = this.geometry.vertices.length / 3;
-                        lastMultiMaterial.groupCount = lastMultiMaterial.groupEnd - lastMultiMaterial.groupStart;
-                        lastMultiMaterial.inherited = false;
-                    }
-                    // Ignore objects tail materials if no face declarations followed them before a new o/g started.
-                    if (end && this.materials.length > 1) {
-                        for(let mi = this.materials.length - 1; mi >= 0; mi--)if (this.materials[mi].groupCount <= 0) this.materials.splice(mi, 1);
-                    }
-                    // Guarantee at least one empty material, this makes the creation later more straight forward.
-                    if (end && this.materials.length === 0) this.materials.push({
-                        name: "",
-                        smooth: this.smooth
-                    });
-                    return lastMultiMaterial;
-                }
-            };
-            // Inherit previous objects material.
-            // Spec tells us that a declared material must be set to all objects until a new material is declared.
-            // If a usemtl declaration is encountered while this new object is being parsed, it will
-            // overwrite the inherited material. Exception being that there was already face declarations
-            // to the inherited material, then it will be preserved for proper MultiMaterial continuation.
-            if (previousMaterial && previousMaterial.name && typeof previousMaterial.clone === "function") {
-                const declared = previousMaterial.clone(0);
-                declared.inherited = true;
-                this.object.materials.push(declared);
-            }
-            this.objects.push(this.object);
-        },
-        finalize: function() {
-            if (this.object && typeof this.object._finalize === "function") this.object._finalize(true);
-        },
-        parseVertexIndex: function(value, len) {
-            const index = parseInt(value, 10);
-            return (index >= 0 ? index - 1 : index + len / 3) * 3;
-        },
-        parseNormalIndex: function(value, len) {
-            const index = parseInt(value, 10);
-            return (index >= 0 ? index - 1 : index + len / 3) * 3;
-        },
-        parseUVIndex: function(value, len) {
-            const index = parseInt(value, 10);
-            return (index >= 0 ? index - 1 : index + len / 2) * 2;
-        },
-        addVertex: function(a, b, c) {
-            const src = this.vertices;
-            const dst = this.object.geometry.vertices;
-            dst.push(src[a + 0], src[a + 1], src[a + 2]);
-            dst.push(src[b + 0], src[b + 1], src[b + 2]);
-            dst.push(src[c + 0], src[c + 1], src[c + 2]);
-        },
-        addVertexPoint: function(a) {
-            const src = this.vertices;
-            const dst = this.object.geometry.vertices;
-            dst.push(src[a + 0], src[a + 1], src[a + 2]);
-        },
-        addVertexLine: function(a) {
-            const src = this.vertices;
-            const dst = this.object.geometry.vertices;
-            dst.push(src[a + 0], src[a + 1], src[a + 2]);
-        },
-        addNormal: function(a, b, c) {
-            const src = this.normals;
-            const dst = this.object.geometry.normals;
-            dst.push(src[a + 0], src[a + 1], src[a + 2]);
-            dst.push(src[b + 0], src[b + 1], src[b + 2]);
-            dst.push(src[c + 0], src[c + 1], src[c + 2]);
-        },
-        addFaceNormal: function(a, b, c) {
-            const src = this.vertices;
-            const dst = this.object.geometry.normals;
-            _vA.fromArray(src, a);
-            _vB.fromArray(src, b);
-            _vC.fromArray(src, c);
-            _cb.subVectors(_vC, _vB);
-            _ab.subVectors(_vA, _vB);
-            _cb.cross(_ab);
-            _cb.normalize();
-            dst.push(_cb.x, _cb.y, _cb.z);
-            dst.push(_cb.x, _cb.y, _cb.z);
-            dst.push(_cb.x, _cb.y, _cb.z);
-        },
-        addColor: function(a, b, c) {
-            const src = this.colors;
-            const dst = this.object.geometry.colors;
-            if (src[a] !== undefined) dst.push(src[a + 0], src[a + 1], src[a + 2]);
-            if (src[b] !== undefined) dst.push(src[b + 0], src[b + 1], src[b + 2]);
-            if (src[c] !== undefined) dst.push(src[c + 0], src[c + 1], src[c + 2]);
-        },
-        addUV: function(a, b, c) {
-            const src = this.uvs;
-            const dst = this.object.geometry.uvs;
-            dst.push(src[a + 0], src[a + 1]);
-            dst.push(src[b + 0], src[b + 1]);
-            dst.push(src[c + 0], src[c + 1]);
-        },
-        addDefaultUV: function() {
-            const dst = this.object.geometry.uvs;
-            dst.push(0, 0);
-            dst.push(0, 0);
-            dst.push(0, 0);
-        },
-        addUVLine: function(a) {
-            const src = this.uvs;
-            const dst = this.object.geometry.uvs;
-            dst.push(src[a + 0], src[a + 1]);
-        },
-        addFace: function(a, b, c, ua, ub, uc, na, nb, nc) {
-            const vLen = this.vertices.length;
-            let ia = this.parseVertexIndex(a, vLen);
-            let ib = this.parseVertexIndex(b, vLen);
-            let ic = this.parseVertexIndex(c, vLen);
-            this.addVertex(ia, ib, ic);
-            this.addColor(ia, ib, ic);
-            // normals
-            if (na !== undefined && na !== "") {
-                const nLen = this.normals.length;
-                ia = this.parseNormalIndex(na, nLen);
-                ib = this.parseNormalIndex(nb, nLen);
-                ic = this.parseNormalIndex(nc, nLen);
-                this.addNormal(ia, ib, ic);
-            } else this.addFaceNormal(ia, ib, ic);
-            // uvs
-            if (ua !== undefined && ua !== "") {
-                const uvLen = this.uvs.length;
-                ia = this.parseUVIndex(ua, uvLen);
-                ib = this.parseUVIndex(ub, uvLen);
-                ic = this.parseUVIndex(uc, uvLen);
-                this.addUV(ia, ib, ic);
-                this.object.geometry.hasUVIndices = true;
-            } else // add placeholder values (for inconsistent face definitions)
-            this.addDefaultUV();
-        },
-        addPointGeometry: function(vertices) {
-            this.object.geometry.type = "Points";
-            const vLen = this.vertices.length;
-            for(let vi = 0, l = vertices.length; vi < l; vi++){
-                const index = this.parseVertexIndex(vertices[vi], vLen);
-                this.addVertexPoint(index);
-                this.addColor(index);
-            }
-        },
-        addLineGeometry: function(vertices, uvs) {
-            this.object.geometry.type = "Line";
-            const vLen = this.vertices.length;
-            const uvLen = this.uvs.length;
-            for(let vi = 0, l = vertices.length; vi < l; vi++)this.addVertexLine(this.parseVertexIndex(vertices[vi], vLen));
-            for(let uvi = 0, l = uvs.length; uvi < l; uvi++)this.addUVLine(this.parseUVIndex(uvs[uvi], uvLen));
-        }
-    };
-    state.startObject("", false);
-    return state;
-}
-//
-class OBJLoader extends (0, _three.Loader) {
-    constructor(manager){
-        super(manager);
-        this.materials = null;
-    }
-    load(url, onLoad, onProgress, onError) {
-        const scope = this;
-        const loader = new (0, _three.FileLoader)(this.manager);
-        loader.setPath(this.path);
-        loader.setRequestHeader(this.requestHeader);
-        loader.setWithCredentials(this.withCredentials);
-        loader.load(url, function(text) {
-            try {
-                onLoad(scope.parse(text));
-            } catch (e) {
-                if (onError) onError(e);
-                else console.error(e);
-                scope.manager.itemError(url);
-            }
-        }, onProgress, onError);
-    }
-    setMaterials(materials) {
-        this.materials = materials;
-        return this;
-    }
-    parse(text) {
-        const state = new ParserState();
-        if (text.indexOf("\r\n") !== -1) // This is faster than String.split with regex that splits on both
-        text = text.replace(/\r\n/g, "\n");
-        if (text.indexOf("\\\n") !== -1) // join lines separated by a line continuation character (\)
-        text = text.replace(/\\\n/g, "");
-        const lines = text.split("\n");
-        let result = [];
-        for(let i = 0, l = lines.length; i < l; i++){
-            const line = lines[i].trimStart();
-            if (line.length === 0) continue;
-            const lineFirstChar = line.charAt(0);
-            // @todo invoke passed in handler if any
-            if (lineFirstChar === "#") continue;
-            if (lineFirstChar === "v") {
-                const data = line.split(_face_vertex_data_separator_pattern);
-                switch(data[0]){
-                    case "v":
-                        state.vertices.push(parseFloat(data[1]), parseFloat(data[2]), parseFloat(data[3]));
-                        if (data.length >= 7) {
-                            _color.setRGB(parseFloat(data[4]), parseFloat(data[5]), parseFloat(data[6])).convertSRGBToLinear();
-                            state.colors.push(_color.r, _color.g, _color.b);
-                        } else // if no colors are defined, add placeholders so color and vertex indices match
-                        state.colors.push(undefined, undefined, undefined);
-                        break;
-                    case "vn":
-                        state.normals.push(parseFloat(data[1]), parseFloat(data[2]), parseFloat(data[3]));
-                        break;
-                    case "vt":
-                        state.uvs.push(parseFloat(data[1]), parseFloat(data[2]));
-                        break;
-                }
-            } else if (lineFirstChar === "f") {
-                const lineData = line.slice(1).trim();
-                const vertexData = lineData.split(_face_vertex_data_separator_pattern);
-                const faceVertices = [];
-                // Parse the face vertex data into an easy to work with format
-                for(let j = 0, jl = vertexData.length; j < jl; j++){
-                    const vertex = vertexData[j];
-                    if (vertex.length > 0) {
-                        const vertexParts = vertex.split("/");
-                        faceVertices.push(vertexParts);
-                    }
-                }
-                // Draw an edge between the first vertex and all subsequent vertices to form an n-gon
-                const v1 = faceVertices[0];
-                for(let j = 1, jl = faceVertices.length - 1; j < jl; j++){
-                    const v2 = faceVertices[j];
-                    const v3 = faceVertices[j + 1];
-                    state.addFace(v1[0], v2[0], v3[0], v1[1], v2[1], v3[1], v1[2], v2[2], v3[2]);
-                }
-            } else if (lineFirstChar === "l") {
-                const lineParts = line.substring(1).trim().split(" ");
-                let lineVertices = [];
-                const lineUVs = [];
-                if (line.indexOf("/") === -1) lineVertices = lineParts;
-                else for(let li = 0, llen = lineParts.length; li < llen; li++){
-                    const parts = lineParts[li].split("/");
-                    if (parts[0] !== "") lineVertices.push(parts[0]);
-                    if (parts[1] !== "") lineUVs.push(parts[1]);
-                }
-                state.addLineGeometry(lineVertices, lineUVs);
-            } else if (lineFirstChar === "p") {
-                const lineData = line.slice(1).trim();
-                const pointData = lineData.split(" ");
-                state.addPointGeometry(pointData);
-            } else if ((result = _object_pattern.exec(line)) !== null) {
-                // o object_name
-                // or
-                // g group_name
-                // WORKAROUND: https://bugs.chromium.org/p/v8/issues/detail?id=2869
-                // let name = result[ 0 ].slice( 1 ).trim();
-                const name = (" " + result[0].slice(1).trim()).slice(1);
-                state.startObject(name);
-            } else if (_material_use_pattern.test(line)) // material
-            state.object.startMaterial(line.substring(7).trim(), state.materialLibraries);
-            else if (_material_library_pattern.test(line)) // mtl file
-            state.materialLibraries.push(line.substring(7).trim());
-            else if (_map_use_pattern.test(line)) // the line is parsed but ignored since the loader assumes textures are defined MTL files
-            // (according to https://www.okino.com/conv/imp_wave.htm, 'usemap' is the old-style Wavefront texture reference method)
-            console.warn('THREE.OBJLoader: Rendering identifier "usemap" not supported. Textures must be defined in MTL files.');
-            else if (lineFirstChar === "s") {
-                result = line.split(" ");
-                // smooth shading
-                // @todo Handle files that have varying smooth values for a set of faces inside one geometry,
-                // but does not define a usemtl for each face set.
-                // This should be detected and a dummy material created (later MultiMaterial and geometry groups).
-                // This requires some care to not create extra material on each smooth value for "normal" obj files.
-                // where explicit usemtl defines geometry groups.
-                // Example asset: examples/models/obj/cerberus/Cerberus.obj
-                /*
-					 * http://paulbourke.net/dataformats/obj/
-					 *
-					 * From chapter "Grouping" Syntax explanation "s group_number":
-					 * "group_number is the smoothing group number. To turn off smoothing groups, use a value of 0 or off.
-					 * Polygonal elements use group numbers to put elements in different smoothing groups. For free-form
-					 * surfaces, smoothing groups are either turned on or off; there is no difference between values greater
-					 * than 0."
-					 */ if (result.length > 1) {
-                    const value = result[1].trim().toLowerCase();
-                    state.object.smooth = value !== "0" && value !== "off";
-                } else // ZBrush can produce "s" lines #11707
-                state.object.smooth = true;
-                const material = state.object.currentMaterial();
-                if (material) material.smooth = state.object.smooth;
-            } else {
-                // Handle null terminated files without exception
-                if (line === "\0") continue;
-                console.warn('THREE.OBJLoader: Unexpected line: "' + line + '"');
-            }
-        }
-        state.finalize();
-        const container = new (0, _three.Group)();
-        container.materialLibraries = [].concat(state.materialLibraries);
-        const hasPrimitives = !(state.objects.length === 1 && state.objects[0].geometry.vertices.length === 0);
-        if (hasPrimitives === true) for(let i = 0, l = state.objects.length; i < l; i++){
-            const object = state.objects[i];
-            const geometry = object.geometry;
-            const materials = object.materials;
-            const isLine = geometry.type === "Line";
-            const isPoints = geometry.type === "Points";
-            let hasVertexColors = false;
-            // Skip o/g line declarations that did not follow with any faces
-            if (geometry.vertices.length === 0) continue;
-            const buffergeometry = new (0, _three.BufferGeometry)();
-            buffergeometry.setAttribute("position", new (0, _three.Float32BufferAttribute)(geometry.vertices, 3));
-            if (geometry.normals.length > 0) buffergeometry.setAttribute("normal", new (0, _three.Float32BufferAttribute)(geometry.normals, 3));
-            if (geometry.colors.length > 0) {
-                hasVertexColors = true;
-                buffergeometry.setAttribute("color", new (0, _three.Float32BufferAttribute)(geometry.colors, 3));
-            }
-            if (geometry.hasUVIndices === true) buffergeometry.setAttribute("uv", new (0, _three.Float32BufferAttribute)(geometry.uvs, 2));
-            // Create materials
-            const createdMaterials = [];
-            for(let mi = 0, miLen = materials.length; mi < miLen; mi++){
-                const sourceMaterial = materials[mi];
-                const materialHash = sourceMaterial.name + "_" + sourceMaterial.smooth + "_" + hasVertexColors;
-                let material = state.materials[materialHash];
-                if (this.materials !== null) {
-                    material = this.materials.create(sourceMaterial.name);
-                    // mtl etc. loaders probably can't create line materials correctly, copy properties to a line material.
-                    if (isLine && material && !(material instanceof (0, _three.LineBasicMaterial))) {
-                        const materialLine = new (0, _three.LineBasicMaterial)();
-                        (0, _three.Material).prototype.copy.call(materialLine, material);
-                        materialLine.color.copy(material.color);
-                        material = materialLine;
-                    } else if (isPoints && material && !(material instanceof (0, _three.PointsMaterial))) {
-                        const materialPoints = new (0, _three.PointsMaterial)({
-                            size: 10,
-                            sizeAttenuation: false
-                        });
-                        (0, _three.Material).prototype.copy.call(materialPoints, material);
-                        materialPoints.color.copy(material.color);
-                        materialPoints.map = material.map;
-                        material = materialPoints;
-                    }
-                }
-                if (material === undefined) {
-                    if (isLine) material = new (0, _three.LineBasicMaterial)();
-                    else if (isPoints) material = new (0, _three.PointsMaterial)({
-                        size: 1,
-                        sizeAttenuation: false
-                    });
-                    else material = new (0, _three.MeshPhongMaterial)();
-                    material.name = sourceMaterial.name;
-                    material.flatShading = sourceMaterial.smooth ? false : true;
-                    material.vertexColors = hasVertexColors;
-                    state.materials[materialHash] = material;
-                }
-                createdMaterials.push(material);
-            }
-            // Create mesh
-            let mesh;
-            if (createdMaterials.length > 1) {
-                for(let mi = 0, miLen = materials.length; mi < miLen; mi++){
-                    const sourceMaterial = materials[mi];
-                    buffergeometry.addGroup(sourceMaterial.groupStart, sourceMaterial.groupCount, mi);
-                }
-                if (isLine) mesh = new (0, _three.LineSegments)(buffergeometry, createdMaterials);
-                else if (isPoints) mesh = new (0, _three.Points)(buffergeometry, createdMaterials);
-                else mesh = new (0, _three.Mesh)(buffergeometry, createdMaterials);
-            } else {
-                if (isLine) mesh = new (0, _three.LineSegments)(buffergeometry, createdMaterials[0]);
-                else if (isPoints) mesh = new (0, _three.Points)(buffergeometry, createdMaterials[0]);
-                else mesh = new (0, _three.Mesh)(buffergeometry, createdMaterials[0]);
-            }
-            mesh.name = object.name;
-            container.add(mesh);
-        }
-        else // if there is only the default parser state object with no geometry data, interpret data as point cloud
-        if (state.vertices.length > 0) {
-            const material = new (0, _three.PointsMaterial)({
-                size: 1,
-                sizeAttenuation: false
-            });
-            const buffergeometry = new (0, _three.BufferGeometry)();
-            buffergeometry.setAttribute("position", new (0, _three.Float32BufferAttribute)(state.vertices, 3));
-            if (state.colors.length > 0 && state.colors[0] !== undefined) {
-                buffergeometry.setAttribute("color", new (0, _three.Float32BufferAttribute)(state.colors, 3));
-                material.vertexColors = true;
-            }
-            const points = new (0, _three.Points)(buffergeometry, material);
-            container.add(points);
-        }
-        return container;
-    }
-}
-
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1FvOj":[function(require,module,exports) {
-module.exports = require("e89c8c87d1e116a1").getBundleURL("duvxv") + "superhero.706f1abe.obj" + "?" + Date.now();
-
-},{"e89c8c87d1e116a1":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+},{"61cb5abebe38c97e":"lgJ39"}],"lgJ39":[function(require,module,exports) {
 "use strict";
 var bundleURL = {};
 function getBundleURLCached(id) {
@@ -30715,32 +30199,21 @@ exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
 exports.getOrigin = getOrigin;
 
-},{}],"jc8mC":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "Hand", ()=>Hand);
-var _objloader = require("three/examples/jsm/loaders/OBJLoader");
-var _three = require("three");
-let hand = new URL(require("b9cf3d98ca0c9cb"));
-class Hand {
-    constructor(){
-        this.obj;
-    }
-    async createObject() {
-        let loader = new (0, _objloader.OBJLoader)();
-        const object = await loader.loadAsync(hand);
-        object.scale.set(300, 300, 300);
-        object.position.set(0, -500, 50);
-        object.rotateZ(0.2);
-        object.rotateY(1.5);
-        object.rotateX(-0.07);
-        this.obj = object;
-    }
-}
+},{}],"hcxes":[function(require,module,exports) {
+module.exports = require("a941895164d04c9a").getBundleURL("eJfUm") + "2.71ee9cb5.jpeg" + "?" + Date.now();
 
-},{"three/examples/jsm/loaders/OBJLoader":"htIhD","three":"ktPTu","b9cf3d98ca0c9cb":"1y3tf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1y3tf":[function(require,module,exports) {
-module.exports = require("451e15491d8924db").getBundleURL("duvxv") + "Hand.8b05ec1a.obj" + "?" + Date.now();
+},{"a941895164d04c9a":"lgJ39"}],"5Dqd0":[function(require,module,exports) {
+module.exports = require("8a95525b2371fff8").getBundleURL("eJfUm") + "3.708b1653.jpeg" + "?" + Date.now();
 
-},{"451e15491d8924db":"lgJ39"}]},["7xxw3","g54gV"], "g54gV", "parcelRequiree85a")
+},{"8a95525b2371fff8":"lgJ39"}],"f42Dz":[function(require,module,exports) {
+module.exports = require("31332a24ff7468ad").getBundleURL("eJfUm") + "4.baa30a36.jpeg" + "?" + Date.now();
 
-//# sourceMappingURL=index.ac8e3386.js.map
+},{"31332a24ff7468ad":"lgJ39"}],"jJ99X":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nuniform sampler2D uTexture;\nuniform vec2 uOffset;\nvarying vec2 vUv;\n\nfloat M_PI = 3.141529;\n\nvec3 deformationCurve(vec3 position, vec2 uv, vec2 offset){\n    position.x = position.x + (sin(uv.y * M_PI) * offset.x);\n    position.y = position.y + (sin(uv.x * M_PI) * offset.y);\n    return position;\n}\n\nvoid main(){\n    vUv = uv;\n    vec3 newPosition = deformationCurve(position, uv, uOffset);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);\n}";
+
+},{}],"5bODN":[function(require,module,exports) {
+module.exports = "#define GLSLIFY 1\nuniform sampler2D uTexture;\nuniform float uAlpha;\nuniform vec2 uOffset;\nvarying vec2 vUv;\n\nvec3 rgbShift(sampler2D textureimage, vec2 uv, vec2 offset ){\n    float r = texture2D(textureimage, uv + offset).r;\n    vec2 gb = texture2D(textureimage, uv).gb;\n    return vec3(r, gb);\n}\n\nvoid main(){\n    // vec3 color = texture2D(uTexture, vUv).rgb;\n    vec3 color = rgbShift(uTexture, vUv, uOffset);\n    gl_FragColor = vec4(color, uAlpha);\n}";
+
+},{}]},["fNAwE","138wq"], "138wq", "parcelRequiree85a")
+
+//# sourceMappingURL=index.4a125e0b.js.map
