@@ -18,7 +18,7 @@ body {
 }
 
 canvas {
-  opacity: 0.2;
+  opacity: 1;
   position: absolute;
   z-index: -2;
 }

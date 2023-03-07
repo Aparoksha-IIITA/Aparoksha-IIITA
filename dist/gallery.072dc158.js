@@ -142,13 +142,13 @@
       this[globalName] = mainExports;
     }
   }
-})({"f51aB":[function(require,module,exports) {
+})({"cbr5y":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "62b7f0601d6b490d";
+module.bundle.HMR_BUNDLE_ID = "2805b8bc072dc158";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, globalThis, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -556,27 +556,8 @@ function hmrAccept(bundle, id) {
     });
 }
 
-},{}],"7JWjm":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-var _eventDataJson = require("../eventData.json");
-var _eventDataJsonDefault = parcelHelpers.interopDefault(_eventDataJson);
-const eventList = [
-    ...document.querySelectorAll("li")
-];
-const eventName = document.querySelector("#event-heading");
-const eventDescription = document.querySelector("#event-description");
-console.log(eventName.innerText);
-eventList.forEach((link, idx)=>{
-    link.addEventListener("mouseenter", ()=>{
-        // console.log(eventData.data);
-        eventName.innerText = (0, _eventDataJsonDefault.default).data[idx].eventName;
-        eventDescription.innerText = (0, _eventDataJsonDefault.default).data[idx].eventDescription;
-    });
-});
+},{}],"kBITv":[function(require,module,exports) {
 
-},{"../eventData.json":"agNoy","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"agNoy":[function(require,module,exports) {
-module.exports = JSON.parse('{"data":[{"eventName":"Event1","eventDescription":"abcdefghijklmnopqrstuvwxyz"},{"eventName":"Event2","eventDescription":"bcdefghijklmnopqrstuvwxyz"},{"eventName":"Event3","eventDescription":"cdefghijklmnopqrstuvwxyz"},{"eventName":"Event4","eventDescription":"defghijklmnopqrstuvwxyz"},{"eventName":"Event1","eventDescription":"abcdefghijklmnopqrstuvwxyz"},{"eventName":"Event2","eventDescription":"bcdefghijklmnopqrstuvwxyz"},{"eventName":"Event3","eventDescription":"cdefghijklmnopqrstuvwxyz"},{"eventName":"Event4","eventDescription":"defghijklmnopqrstuvwxyz"}]}');
+},{}]},["cbr5y","kBITv"], "kBITv", "parcelRequiree85a")
 
-},{}]},["f51aB","7JWjm"], "7JWjm", "parcelRequiree85a")
-
-//# sourceMappingURL=index.1d6b490d.js.map
+//# sourceMappingURL=gallery.072dc158.js.map
