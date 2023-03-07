@@ -6,7 +6,7 @@ switch (page) {
   case "events":
     require("./events").default();
     break;
-  // case "gallery":
-  //   require("./gallery/init.js").default();
-  //   break;
+  case "gallery":
+    require("./gallery").default();
+    break;
 }

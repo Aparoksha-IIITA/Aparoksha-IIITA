@@ -565,9 +565,12 @@ switch(page){
     case "events":
         require("cebee9c062a6910f").default();
         break;
+    case "gallery":
+        require("d1a1d995815d6392").default();
+        break;
 }
 
-},{"52915b2c0343422f":"5yj01","cebee9c062a6910f":"djN8F"}],"5yj01":[function(require,module,exports) {
+},{"52915b2c0343422f":"5yj01","cebee9c062a6910f":"djN8F","d1a1d995815d6392":"zntW9"}],"5yj01":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _three = require("three");
@@ -30945,6 +30948,381 @@ exports.default = init;
 },{"../../json/eventData.json":"aIrRM","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"aIrRM":[function(require,module,exports) {
 module.exports = JSON.parse('{"data":[{"eventName":"Event1","eventDescription":"abcdefghijklmnopqrstuvwxyz"},{"eventName":"Event2","eventDescription":"bcdefghijklmnopqrstuvwxyz"},{"eventName":"Event3","eventDescription":"cdefghijklmnopqrstuvwxyz"},{"eventName":"Event4","eventDescription":"defghijklmnopqrstuvwxyz"},{"eventName":"Event1","eventDescription":"abcdefghijklmnopqrstuvwxyz"},{"eventName":"Event2","eventDescription":"bcdefghijklmnopqrstuvwxyz"},{"eventName":"Event3","eventDescription":"cdefghijklmnopqrstuvwxyz"},{"eventName":"Event4","eventDescription":"defghijklmnopqrstuvwxyz"}]}');
 
-},{}]},["7xxw3","g54gV"], "g54gV", "parcelRequiree85a")
+},{}],"zntW9":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _three = require("three");
+var _jsUtil = require("@ykob/js-util");
+var _normalizeVector2 = require("../common/normalizeVector2");
+var _normalizeVector2Default = parcelHelpers.interopDefault(_normalizeVector2);
+var _oldForce3 = require("../common/oldForce3");
+var _oldForce3Default = parcelHelpers.interopDefault(_oldForce3);
+var _forceCamera = require("../common/ForceCamera");
+var _forceCameraDefault = parcelHelpers.interopDefault(_forceCamera);
+var _forceHemisphereLight = require("../common/ForceHemisphereLight");
+var _forceHemisphereLightDefault = parcelHelpers.interopDefault(_forceHemisphereLight);
+var _util = require("../common/util");
+var _utilDefault = parcelHelpers.interopDefault(_util);
+var _image01Jpg = require("../../assets/images/gallery/image01.jpg");
+var _image01JpgDefault = parcelHelpers.interopDefault(_image01Jpg);
+function gallery() {
+    const canvas = document.getElementById("canvas-webgl");
+    const renderer = new _three.WebGLRenderer({
+        antialias: true,
+        canvas: canvas
+    });
+    const scene = new _three.Scene();
+    const camera = new (0, _forceCameraDefault.default)(35, document.body.clientWidth / window.innerHeight, 1, 10000);
+    //
+    // process for this sketch.
+    //
+    var images = [];
+    var images_num = 300;
+    var light = null;
+    var raycaster = new _three.Raycaster();
+    var picked_id = -1;
+    var picked_index = -1;
+    var is_clicked = false;
+    var is_draged = false;
+    var get_near = false;
+    var Image = function() {
+        this.rad = 0;
+        this.obj;
+        this.is_entered = false;
+        (0, _oldForce3Default.default).call(this);
+    };
+    var image_geometry = new _three.PlaneGeometry(100, 100);
+    Image.prototype = Object.create((0, _oldForce3Default.default).prototype);
+    Image.prototype.constructor = Image;
+    Image.prototype.init = function(vector) {
+        var image_material = new _three.MeshPhongMaterial({
+            side: _three.DoubleSide,
+            map: new _three.TextureLoader().load((0, _image01JpgDefault.default))
+        });
+        this.obj = new _three.Mesh(image_geometry, image_material);
+        this.velocity = vector.clone();
+        this.anchor = vector.clone();
+        this.acceleration.set(0, 0, 0);
+    };
+    var initImages = function(scene) {
+        for(var i = 0; i < images_num; i++){
+            var image = null;
+            var rad = (0, _utilDefault.default).getRadian(i % 45 * 8 + 180);
+            var radius = 1000;
+            var x = Math.cos(rad) * radius;
+            var y = i * 5 - images_num * 2.5;
+            var z = Math.sin(rad) * radius;
+            var vector = new _three.Vector3(x, y, z);
+            image = new Image();
+            image.init(new _three.Vector3());
+            image.rad = rad;
+            image.obj.position.copy(vector);
+            scene.add(image.obj);
+            images.push(image);
+        }
+    };
+    var pickImage = function(vector) {
+        if (get_near) return;
+        var intersects = null;
+        raycaster.setFromCamera(vector, camera);
+        intersects = raycaster.intersectObjects(scene.children);
+        if (intersects.length > 0 && is_draged == false) {
+            document.body.classList.add("is-pointed");
+            picked_id = intersects[0].object.id;
+        } else resetPickImage();
+    };
+    var getNearImage = function(camera, image) {
+        get_near = true;
+        camera.force.position.anchor.set(Math.cos(image.rad) * 780, image.obj.position.y, Math.sin(image.rad) * 780);
+        camera.force.look.anchor.copy(image.obj.position);
+        resetPickImage();
+    };
+    var resetPickImage = function() {
+        document.body.classList.remove("is-pointed");
+        picked_id = -1;
+    };
+    const initSketch = ()=>{
+        initImages(scene);
+        light = new (0, _forceHemisphereLightDefault.default)(0xffffff, 0xffffff, 1);
+        scene.add(light);
+        camera.force.position.anchor.set(0, 0, 0);
+        camera.rotate_rad1 = (0, _utilDefault.default).getRadian(-35);
+        camera.rotate_rad1_base = camera.rotate_rad1;
+        camera.rotate_rad2 = (0, _utilDefault.default).getRadian(180);
+        camera.rotate_rad2_base = camera.rotate_rad2;
+    };
+    //
+    // common process
+    //
+    const resizeWindow = ()=>{
+        canvas.width = document.body.clientWidth;
+        canvas.height = window.innerHeight;
+        camera.aspect = document.body.clientWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(document.body.clientWidth, window.innerHeight);
+    };
+    const render = ()=>{
+        for(var i = 0; i < images_num; i++){
+            images[i].applyHook(0, 0.14);
+            images[i].applyDrag(0.4);
+            images[i].updateVelocity();
+            images[i].obj.lookAt(0, images[i].obj.position.y, 0);
+            if (images[i].obj.id == picked_id && is_draged == false && get_near == false) {
+                if (is_clicked == true) picked_index = i;
+                else images[i].obj.material.color.set(0xaaaaaa);
+            } else images[i].obj.material.color.set(0xffffff);
+        }
+        camera.force.position.applyHook(0, 0.08);
+        camera.force.position.applyDrag(0.4);
+        camera.force.position.updateVelocity();
+        camera.updatePosition();
+        if (get_near === false) camera.force.look.anchor.copy((0, _utilDefault.default).getPolarCoord(camera.rotate_rad1, camera.rotate_rad2, 1000));
+        camera.force.look.applyHook(0, 0.08);
+        camera.force.look.applyDrag(0.4);
+        camera.force.look.updateVelocity();
+        camera.updateLook();
+        renderer.render(scene, camera);
+    };
+    const renderLoop = ()=>{
+        render();
+        requestAnimationFrame(renderLoop);
+    };
+    const on = ()=>{
+        const vectorTouchStart = new _three.Vector2();
+        const vectorTouchMove = new _three.Vector2();
+        const vectorTouchEnd = new _three.Vector2();
+        const touchStart = (x, y, touch_event)=>{
+            vectorTouchStart.set(x, y);
+            (0, _normalizeVector2Default.default)(vectorTouchStart);
+            pickImage(vectorTouchStart);
+            is_clicked = true;
+        };
+        const touchMove = (x, y, touch_event)=>{
+            vectorTouchMove.set(x, y);
+            (0, _normalizeVector2Default.default)(vectorTouchMove);
+            pickImage(scene, camera, vectorTouchMove);
+            if (is_clicked && vectorTouchStart.clone().sub(vectorTouchMove).length() > 0.01) {
+                is_clicked = false;
+                is_draged = true;
+            }
+            if (is_draged == true && get_near == false) {
+                camera.rotate_rad1 = camera.rotate_rad1_base + (0, _utilDefault.default).getRadian((vectorTouchStart.y - vectorTouchMove.y) * 50);
+                camera.rotate_rad2 = camera.rotate_rad2_base + (0, _utilDefault.default).getRadian((vectorTouchStart.x - vectorTouchMove.x) * 50);
+                if (camera.rotate_rad1 < (0, _utilDefault.default).getRadian(-50)) camera.rotate_rad1 = (0, _utilDefault.default).getRadian(-50);
+                if (camera.rotate_rad1 > (0, _utilDefault.default).getRadian(50)) camera.rotate_rad1 = (0, _utilDefault.default).getRadian(50);
+            }
+        };
+        const touchEnd = (x, y, touch_event)=>{
+            vectorTouchEnd.set(x, y);
+            resetPickImage();
+            if (get_near) {
+                camera.force.position.anchor.set(0, 0, 0);
+                picked_index = -1;
+                get_near = false;
+            } else if (is_clicked && picked_index > -1) getNearImage(camera, images[picked_index]);
+            else if (is_draged) {
+                camera.rotate_rad1_base = camera.rotate_rad1;
+                camera.rotate_rad2_base = camera.rotate_rad2;
+            }
+            is_clicked = false;
+            is_draged = false;
+        };
+        const mouseOut = ()=>{
+            vectorTouchEnd.set(0, 0);
+            resetPickImage();
+            if (get_near) {
+                camera.force.position.anchor.set(0, 0, 0);
+                picked_index = -1;
+                get_near = false;
+            } else if (is_clicked && picked_index > -1) getNearImage(camera, images[picked_index]);
+            else if (is_draged) {
+                camera.rotate_rad1_base = camera.rotate_rad1;
+                camera.rotate_rad2_base = camera.rotate_rad2;
+            }
+            is_clicked = false;
+            is_draged = false;
+        };
+        window.addEventListener("resize", (0, _jsUtil.debounce)(()=>{
+            resizeWindow();
+        }), 1000);
+        canvas.addEventListener("mousedown", function(event) {
+            event.preventDefault();
+            touchStart(event.clientX, event.clientY, false);
+        });
+        canvas.addEventListener("mousemove", function(event) {
+            event.preventDefault();
+            touchMove(event.clientX, event.clientY, false);
+        });
+        canvas.addEventListener("mouseup", function(event) {
+            event.preventDefault();
+            touchEnd(event.clientX, event.clientY, false);
+        });
+        canvas.addEventListener("touchstart", function(event) {
+            event.preventDefault();
+            touchStart(event.touches[0].clientX, event.touches[0].clientY, true);
+        });
+        canvas.addEventListener("touchmove", function(event) {
+            event.preventDefault();
+            touchMove(event.touches[0].clientX, event.touches[0].clientY, true);
+        });
+        canvas.addEventListener("touchend", function(event) {
+            event.preventDefault();
+            touchEnd(event.changedTouches[0].clientX, event.changedTouches[0].clientY, true);
+        });
+        window.addEventListener("mouseout", function(event) {
+            event.preventDefault();
+            mouseOut();
+        });
+    };
+    const init = ()=>{
+        renderer.setSize(document.body.clientWidth, window.innerHeight);
+        renderer.setClearColor(0x111111, 1.0);
+        camera.position.set(1000, 1000, 1000);
+        camera.lookAt(new _three.Vector3());
+        on();
+        initSketch();
+        resizeWindow();
+        renderLoop();
+    };
+    init();
+}
+exports.default = gallery;
+
+},{"three":"ktPTu","@ykob/js-util":"cxomY","../common/normalizeVector2":"frW4t","../common/ForceCamera":"iJKvg","../common/ForceHemisphereLight":"lkwiO","../common/util":"eM1b6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../common/oldForce3":"d9vPN","../../assets/images/gallery/image01.jpg":"5gFfU"}],"frW4t":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+exports.default = function(vector) {
+    vector.x = vector.x / document.body.clientWidth * 2 - 1;
+    vector.y = -(vector.y / window.innerHeight) * 2 + 1;
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iJKvg":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _three = require("three");
+var _util = require("./util");
+var _utilDefault = parcelHelpers.interopDefault(_util);
+var _oldForce3 = require("./oldForce3");
+var _oldForce3Default = parcelHelpers.interopDefault(_oldForce3);
+class ForceCamera extends _three.PerspectiveCamera {
+    constructor(fov, aspect, near, far){
+        super(fov, aspect, near, far);
+        this.force = {
+            position: new (0, _oldForce3Default.default)(),
+            look: new (0, _oldForce3Default.default)()
+        };
+        this.up.set(0, 1, 0);
+    }
+    updatePosition() {
+        this.position.copy(this.force.position.velocity);
+    }
+    updateLook() {
+        this.lookAt(this.force.look.velocity.x, this.force.look.velocity.y, this.force.look.velocity.z);
+    }
+    reset() {
+        this.setPolarCoord();
+        this.lookAtCenter();
+    }
+    resize(width, height) {
+        this.aspect = width / height;
+        this.updateProjectionMatrix();
+    }
+    setPolarCoord(rad1, rad2, range) {
+        this.force.position.anchor.copy((0, _utilDefault.default).getPolarCoord(rad1, rad2, range));
+    }
+    lookAtCenter() {
+        this.lookAt(0, 0, 0);
+    }
+}
+exports.default = ForceCamera;
+
+},{"three":"ktPTu","./util":"eM1b6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./oldForce3":"d9vPN"}],"eM1b6":[function(require,module,exports) {
+const THREE = require("7d9c326613350ea0");
+module.exports = {
+    getRandomInt: function(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    },
+    getDegree: function(radian) {
+        return radian / Math.PI * 180;
+    },
+    getRadian: function(degrees) {
+        return degrees * Math.PI / 180;
+    },
+    getPolarCoord: function(rad1, rad2, r) {
+        var x = Math.cos(rad1) * Math.cos(rad2) * r;
+        var z = Math.cos(rad1) * Math.sin(rad2) * r;
+        var y = Math.sin(rad1) * r;
+        return new THREE.Vector3(x, y, z);
+    }
+};
+
+},{"7d9c326613350ea0":"ktPTu"}],"d9vPN":[function(require,module,exports) {
+const THREE = require("dff5071fbfe2a277");
+var exports = function() {
+    var Force = function() {
+        this.velocity = new THREE.Vector3();
+        this.acceleration = new THREE.Vector3();
+        this.anchor = new THREE.Vector3();
+        this.mass = 1;
+    };
+    Force.prototype.updateVelocity = function() {
+        this.acceleration.divideScalar(this.mass);
+        this.velocity.add(this.acceleration);
+    };
+    Force.prototype.applyForce = function(vector) {
+        this.acceleration.add(vector);
+    };
+    Force.prototype.applyFriction = function(mu, normal) {
+        var force = this.acceleration.clone();
+        if (!normal) normal = 1;
+        force.multiplyScalar(-1);
+        force.normalize();
+        force.multiplyScalar(mu);
+        this.applyForce(force);
+    };
+    Force.prototype.applyDrag = function(value) {
+        var force = this.acceleration.clone();
+        force.multiplyScalar(-1);
+        force.normalize();
+        force.multiplyScalar(this.acceleration.length() * value);
+        this.applyForce(force);
+    };
+    Force.prototype.applyHook = function(rest_length, k) {
+        var force = this.velocity.clone().sub(this.anchor);
+        var distance = force.length() - rest_length;
+        force.normalize();
+        force.multiplyScalar(-1 * k * distance);
+        this.applyForce(force);
+    };
+    return Force;
+};
+module.exports = exports();
+
+},{"dff5071fbfe2a277":"ktPTu"}],"lkwiO":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _three = require("three");
+var _util = require("./util");
+var _utilDefault = parcelHelpers.interopDefault(_util);
+var _oldForce3 = require("./oldForce3");
+var _oldForce3Default = parcelHelpers.interopDefault(_oldForce3);
+class ForceHemisphereLight extends _three.HemisphereLight {
+    constructor(hex1, hex2, intensity){
+        super(hex1, hex2, intensity);
+        this.force = new (0, _oldForce3Default.default)();
+    }
+    updatePosition() {
+        this.position.copy(this.force.velocity);
+    }
+    setPolarCoord(rad1, rad2, range) {
+        this.position.copy((0, _utilDefault.default).getPolarCoord(rad1, rad2, range));
+    }
+}
+exports.default = ForceHemisphereLight;
+
+},{"three":"ktPTu","./util":"eM1b6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./oldForce3":"d9vPN"}],"5gFfU":[function(require,module,exports) {
+module.exports = require("e83a99c47c5c1dfc").getBundleURL("duvxv") + "image01.64e08d10.jpg" + "?" + Date.now();
+
+},{"e83a99c47c5c1dfc":"lgJ39"}]},["7xxw3","g54gV"], "g54gV", "parcelRequiree85a")
 
 //# sourceMappingURL=events.ac8e3386.js.map
