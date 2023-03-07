@@ -183,5 +183,3 @@ class WebGL {
     window.requestAnimationFrame(this.render.bind(this));
   }
 }
-
-new WebGL();

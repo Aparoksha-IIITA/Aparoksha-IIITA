@@ -1,0 +1,80 @@
+@font-face {
+    font-family: "Ogg";
+    src: url(../assets/fonts/Ogg-Custom.woff2) format("woff2");
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Ogg";
+    font-size: 1.5rem;
+    color: purple;
+}
+
+html,
+body {
+    background-color: #131313;
+}
+
+canvas {
+    opacity: 1;
+    position: absolute;
+    z-index: -2;
+}
+
+main {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100vh;
+}
+
+ul {
+    position: absolute;
+    left: 10%;
+    top: 20%;
+    height: 60%;
+    width: 80%;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+ul li {
+    position: relative;
+    /* border-bottom: 1px solid rgba(0, 0, 0, 0.118); */
+    border-bottom: 1px solid rgba(230, 0, 255, 0.118);
+    cursor: pointer;
+    transition: 1s;
+    opacity: 1 !important;
+}
+
+ul li:hover {
+    opacity: 1 !important;
+}
+
+#description {
+    position: fixed;
+    width: 50%;
+    height: 100vh;
+    right: 0;
+    padding: 2rem;
+    /* margin-bottom: 16rem; */
+    /* background-color: green; */
+}
+
+#event-heading {
+    /* padding: 300px, 32px, 32px, 32px; */
+    /* background-color: red; */
+    text-align: center;
+    border-bottom: 2px solid rgba(230, 0, 255, 0.118);
+    margin-bottom: 2rem;
+}
+
+#event-description-heading {
+    border-bottom: 1px solid rgba(230, 0, 255, 0.118);
+    margin-bottom: 0.5rem;
+}

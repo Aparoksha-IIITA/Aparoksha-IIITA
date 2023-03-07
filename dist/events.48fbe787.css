@@ -1,0 +1,76 @@
+@font-face {
+  font-family: Ogg;
+  src: url("Ogg-Custom.a784a84b.woff2") format("woff2");
+}
+
+* {
+  box-sizing: border-box;
+  color: purple;
+  margin: 0;
+  padding: 0;
+  font-family: Ogg;
+  font-size: 1.5rem;
+}
+
+html, body {
+  background-color: #131313;
+}
+
+canvas {
+  opacity: 1;
+  z-index: -2;
+  position: absolute;
+}
+
+main {
+  width: 50%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+ul {
+  height: 60%;
+  width: 80%;
+  flex-direction: column;
+  justify-content: space-between;
+  list-style: none;
+  display: flex;
+  position: absolute;
+  top: 20%;
+  left: 10%;
+}
+
+ul li {
+  cursor: pointer;
+  border-bottom: 1px solid #e600ff1e;
+  transition: all 1s;
+  position: relative;
+  opacity: 1 !important;
+}
+
+ul li:hover {
+  opacity: 1 !important;
+}
+
+#description {
+  width: 50%;
+  height: 100vh;
+  padding: 2rem;
+  position: fixed;
+  right: 0;
+}
+
+#event-heading {
+  text-align: center;
+  border-bottom: 2px solid #e600ff1e;
+  margin-bottom: 2rem;
+}
+
+#event-description-heading {
+  border-bottom: 1px solid #e600ff1e;
+  margin-bottom: .5rem;
+}
+
+/*# sourceMappingURL=events.48fbe787.css.map */
