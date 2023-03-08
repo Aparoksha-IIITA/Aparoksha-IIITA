@@ -560,17 +560,17 @@ function hmrAccept(bundle, id) {
 let page = document.querySelector("body").dataset.page;
 switch(page){
     case "index":
-        require("52915b2c0343422f").default();
+        require("a8e6600b6abef9a2").default();
         break;
     case "events":
-        require("cebee9c062a6910f").default();
+        require("b58a8a66404b9c20").default();
         break;
     case "gallery":
-        require("d1a1d995815d6392").default();
+        require("cecb3a810eaf10e7").default();
         break;
 }
 
-},{"52915b2c0343422f":"5yj01","cebee9c062a6910f":"djN8F","d1a1d995815d6392":"zntW9"}],"5yj01":[function(require,module,exports) {
+},{"a8e6600b6abef9a2":"5yj01","b58a8a66404b9c20":"djN8F","cecb3a810eaf10e7":"zntW9"}],"5yj01":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _three = require("three");
@@ -587,11 +587,21 @@ function index() {
     const camera = new _three.PerspectiveCamera(50, document.body.clientWidth / window.innerHeight, 1, 1000);
     const clock = new _three.Clock();
     const ambientLight = new _three.AmbientLight(0x33333);
-    const directionalLightLeft = new _three.DirectionalLight(0x0c28ef);
-    directionalLightLeft.position.set(-700, 200, 300);
-    const directionalLightRight = new _three.DirectionalLight(0xbf287f);
-    directionalLightRight.position.set(400, 200, 300);
+    // const directionalLightLeft = new THREE.DirectionalLight(0x0c28ef);
+    // directionalLightLeft.position.set(-700, 200, 300);
+    // const directionalLightRight = new THREE.DirectionalLight(0xbf287f);
+    // directionalLightRight.position.set(400, 200, 300);
     // const dLightHelper = new THREE.DirectionalLightHelper(directionalLight, 50);
+    const light1 = new _three.PointLight(0xbf287f, 5, 800, 5);
+    light1.position.set(400, -200, 300);
+    light1.add(new _three.Mesh(new _three.SphereGeometry(0.5, 16, 8), new _three.MeshBasicMaterial({
+        color: 0x00275e
+    })));
+    const light2 = new _three.PointLight(0x0c28ef, 5, 800);
+    light2.position.set(0, 200, 300);
+    light2.add(new _three.Mesh(new _three.SphereGeometry(0.5, 16, 8), new _three.MeshBasicMaterial({
+        color: 0x00275e
+    })));
     const superhero = new (0, _superhero.SuperHero)();
     const hand = new (0, _hand.Hand)();
     const resizeWindow = ()=>{
@@ -605,8 +615,30 @@ function index() {
         const time = clock.getDelta();
         renderer.render(scene, camera);
     };
+    let goUp = true;
+    let angle = 0.0000001;
     const renderLoop = ()=>{
         render();
+        // superhero.obj.setRotationFromAxisAngle(new THREE.Vector3(0, 0, 0), 4);
+        // superhero.obj.position.setX = superhero.obj.position.x + angle;
+        // console.log(superhero);
+        // if (superhero !== undefined) {
+        superhero.obj.rotateY(angle);
+        hand.obj.rotateY(angle);
+        // }
+        // angle = angle + 1;
+        console.log(angle);
+        if (!goUp) {
+            if (light1.position.y < -200) goUp = true, angle = 0;
+            light1.position.setY(light1.position.y - 0.5);
+            light2.position.setY(light2.position.y + 0.5);
+            angle = angle + 0.0000005;
+        } else {
+            if (light1.position.y > 200) goUp = false, angle = 0;
+            light1.position.setY(light1.position.y + 0.5);
+            light2.position.setY(light2.position.y - 0.5);
+            angle = angle - 0.0000005;
+        }
         requestAnimationFrame(renderLoop);
     };
     const on = ()=>{
@@ -619,8 +651,10 @@ function index() {
         renderer.setClearColor(0x00275e, 1.0);
         camera.position.z = 800;
         scene.add(ambientLight);
-        scene.add(directionalLightLeft);
-        scene.add(directionalLightRight);
+        // scene.add(directionalLightLeft);
+        // scene.add(directionalLightRight);
+        scene.add(light1);
+        scene.add(light2);
         // scene.add(dLightHelper);
         Promise.all([
             superhero.createObject(),
@@ -628,11 +662,12 @@ function index() {
         ]).then(()=>{
             scene.add(superhero.obj);
             scene.add(hand.obj);
+        }).then(()=>{
+            clock.start();
+            on();
+            resizeWindow();
+            renderLoop();
         });
-        clock.start();
-        on();
-        resizeWindow();
-        renderLoop();
     };
     init();
 }
@@ -30193,7 +30228,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "SuperHero", ()=>SuperHero);
 var _objloader = require("three/examples/jsm/loaders/OBJLoader");
 var _three = require("three");
-let superhero = new URL(require("b8f349efede79ead"));
+let superhero = new URL(require("95b4a0bb45e24f93"));
 class SuperHero {
     constructor(){
         this.obj;
@@ -30208,7 +30243,7 @@ class SuperHero {
     }
 }
 
-},{"three/examples/jsm/loaders/OBJLoader":"htIhD","three":"ktPTu","b8f349efede79ead":"1FvOj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"htIhD":[function(require,module,exports) {
+},{"three/examples/jsm/loaders/OBJLoader":"htIhD","three":"ktPTu","95b4a0bb45e24f93":"1FvOj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"htIhD":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "OBJLoader", ()=>OBJLoader);
@@ -30686,9 +30721,9 @@ class OBJLoader extends (0, _three.Loader) {
 }
 
 },{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1FvOj":[function(require,module,exports) {
-module.exports = require("4f9d374286cafe51").getBundleURL("duvxv") + "superhero.706f1abe.obj" + "?" + Date.now();
+module.exports = require("e89c8c87d1e116a1").getBundleURL("duvxv") + "superhero.706f1abe.obj" + "?" + Date.now();
 
-},{"4f9d374286cafe51":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+},{"e89c8c87d1e116a1":"lgJ39"}],"lgJ39":[function(require,module,exports) {
 "use strict";
 var bundleURL = {};
 function getBundleURLCached(id) {
@@ -30728,7 +30763,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Hand", ()=>Hand);
 var _objloader = require("three/examples/jsm/loaders/OBJLoader");
 var _three = require("three");
-let hand = new URL(require("463ffd736a2c95c4"));
+let hand = new URL(require("b9cf3d98ca0c9cb"));
 class Hand {
     constructor(){
         this.obj;
@@ -30745,10 +30780,10 @@ class Hand {
     }
 }
 
-},{"three/examples/jsm/loaders/OBJLoader":"htIhD","three":"ktPTu","463ffd736a2c95c4":"1y3tf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1y3tf":[function(require,module,exports) {
-module.exports = require("1367cb21092dd3a4").getBundleURL("duvxv") + "Hand.8b05ec1a.obj" + "?" + Date.now();
+},{"three/examples/jsm/loaders/OBJLoader":"htIhD","three":"ktPTu","b9cf3d98ca0c9cb":"1y3tf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1y3tf":[function(require,module,exports) {
+module.exports = require("451e15491d8924db").getBundleURL("duvxv") + "Hand.8b05ec1a.obj" + "?" + Date.now();
 
-},{"1367cb21092dd3a4":"lgJ39"}],"djN8F":[function(require,module,exports) {
+},{"451e15491d8924db":"lgJ39"}],"djN8F":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _three = require("three");
@@ -30906,18 +30941,18 @@ function index() {
 exports.default = index;
 
 },{"three":"ktPTu","../../assets/images/1.jpeg":"kZ7ER","../../assets/images/2.jpeg":"cUSnx","../../assets/images/3.jpeg":"ePbol","../../assets/images/4.jpeg":"k7Ugv","./glsl/image.vert":"gz2Dl","./glsl/image.frag":"bU1W7","./eventDetails":"dInx8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kZ7ER":[function(require,module,exports) {
-module.exports = require("4474089504246168").getBundleURL("duvxv") + "1.f8a1e8ca.jpeg" + "?" + Date.now();
+module.exports = require("15355959f1d4da42").getBundleURL("duvxv") + "1.f8a1e8ca.jpeg" + "?" + Date.now();
 
-},{"4474089504246168":"lgJ39"}],"cUSnx":[function(require,module,exports) {
-module.exports = require("17b391437d7666e9").getBundleURL("duvxv") + "2.c36ee1c3.jpeg" + "?" + Date.now();
+},{"15355959f1d4da42":"lgJ39"}],"cUSnx":[function(require,module,exports) {
+module.exports = require("389606e71aab1c26").getBundleURL("duvxv") + "2.c36ee1c3.jpeg" + "?" + Date.now();
 
-},{"17b391437d7666e9":"lgJ39"}],"ePbol":[function(require,module,exports) {
-module.exports = require("4386852da4bd4db1").getBundleURL("duvxv") + "3.ad2a0192.jpeg" + "?" + Date.now();
+},{"389606e71aab1c26":"lgJ39"}],"ePbol":[function(require,module,exports) {
+module.exports = require("896d9281308a3012").getBundleURL("duvxv") + "3.ad2a0192.jpeg" + "?" + Date.now();
 
-},{"4386852da4bd4db1":"lgJ39"}],"k7Ugv":[function(require,module,exports) {
-module.exports = require("f282259b9311c7e6").getBundleURL("duvxv") + "4.7c533042.jpeg" + "?" + Date.now();
+},{"896d9281308a3012":"lgJ39"}],"k7Ugv":[function(require,module,exports) {
+module.exports = require("50d446e2c1e7a536").getBundleURL("duvxv") + "4.7c533042.jpeg" + "?" + Date.now();
 
-},{"f282259b9311c7e6":"lgJ39"}],"gz2Dl":[function(require,module,exports) {
+},{"50d446e2c1e7a536":"lgJ39"}],"gz2Dl":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nuniform sampler2D uTexture;\nuniform vec2 uOffset;\nvarying vec2 vUv;\n\nfloat M_PI = 3.141529;\n\nvec3 deformationCurve(vec3 position, vec2 uv, vec2 offset){\n    position.x = position.x + (sin(uv.y * M_PI) * offset.x);\n    position.y = position.y + (sin(uv.x * M_PI) * offset.y);\n    \n    return position;\n}\n\nvoid main(){\n    vUv = uv;\n    vec3 newPosition = deformationCurve(position, uv, uOffset);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n    //change position to newPosition to get curve effect.\n}";
 
 },{}],"bU1W7":[function(require,module,exports) {
@@ -31188,7 +31223,7 @@ function gallery() {
 }
 exports.default = gallery;
 
-},{"three":"ktPTu","@ykob/js-util":"cxomY","../common/normalizeVector2":"frW4t","../common/ForceCamera":"iJKvg","../common/ForceHemisphereLight":"lkwiO","../common/util":"eM1b6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","../common/oldForce3":"d9vPN","../../assets/images/gallery/image01.jpg":"5gFfU"}],"frW4t":[function(require,module,exports) {
+},{"three":"ktPTu","@ykob/js-util":"cxomY","../common/normalizeVector2":"frW4t","../common/oldForce3":"d9vPN","../common/ForceCamera":"iJKvg","../common/ForceHemisphereLight":"lkwiO","../common/util":"eM1b6","../../assets/images/gallery/image01.jpg":"5gFfU","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"frW4t":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 exports.default = function(vector) {
@@ -31196,68 +31231,8 @@ exports.default = function(vector) {
     vector.y = -(vector.y / window.innerHeight) * 2 + 1;
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"iJKvg":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _three = require("three");
-var _util = require("./util");
-var _utilDefault = parcelHelpers.interopDefault(_util);
-var _oldForce3 = require("./oldForce3");
-var _oldForce3Default = parcelHelpers.interopDefault(_oldForce3);
-class ForceCamera extends _three.PerspectiveCamera {
-    constructor(fov, aspect, near, far){
-        super(fov, aspect, near, far);
-        this.force = {
-            position: new (0, _oldForce3Default.default)(),
-            look: new (0, _oldForce3Default.default)()
-        };
-        this.up.set(0, 1, 0);
-    }
-    updatePosition() {
-        this.position.copy(this.force.position.velocity);
-    }
-    updateLook() {
-        this.lookAt(this.force.look.velocity.x, this.force.look.velocity.y, this.force.look.velocity.z);
-    }
-    reset() {
-        this.setPolarCoord();
-        this.lookAtCenter();
-    }
-    resize(width, height) {
-        this.aspect = width / height;
-        this.updateProjectionMatrix();
-    }
-    setPolarCoord(rad1, rad2, range) {
-        this.force.position.anchor.copy((0, _utilDefault.default).getPolarCoord(rad1, rad2, range));
-    }
-    lookAtCenter() {
-        this.lookAt(0, 0, 0);
-    }
-}
-exports.default = ForceCamera;
-
-},{"three":"ktPTu","./util":"eM1b6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./oldForce3":"d9vPN"}],"eM1b6":[function(require,module,exports) {
-const THREE = require("7d9c326613350ea0");
-module.exports = {
-    getRandomInt: function(min, max) {
-        return Math.floor(Math.random() * (max - min)) + min;
-    },
-    getDegree: function(radian) {
-        return radian / Math.PI * 180;
-    },
-    getRadian: function(degrees) {
-        return degrees * Math.PI / 180;
-    },
-    getPolarCoord: function(rad1, rad2, r) {
-        var x = Math.cos(rad1) * Math.cos(rad2) * r;
-        var z = Math.cos(rad1) * Math.sin(rad2) * r;
-        var y = Math.sin(rad1) * r;
-        return new THREE.Vector3(x, y, z);
-    }
-};
-
-},{"7d9c326613350ea0":"ktPTu"}],"d9vPN":[function(require,module,exports) {
-const THREE = require("dff5071fbfe2a277");
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"d9vPN":[function(require,module,exports) {
+const THREE = require("4082a26084e26ace");
 var exports = function() {
     var Force = function() {
         this.velocity = new THREE.Vector3();
@@ -31298,7 +31273,67 @@ var exports = function() {
 };
 module.exports = exports();
 
-},{"dff5071fbfe2a277":"ktPTu"}],"lkwiO":[function(require,module,exports) {
+},{"4082a26084e26ace":"ktPTu"}],"iJKvg":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _three = require("three");
+var _util = require("./util");
+var _utilDefault = parcelHelpers.interopDefault(_util);
+var _oldForce3 = require("./oldForce3");
+var _oldForce3Default = parcelHelpers.interopDefault(_oldForce3);
+class ForceCamera extends _three.PerspectiveCamera {
+    constructor(fov, aspect, near, far){
+        super(fov, aspect, near, far);
+        this.force = {
+            position: new (0, _oldForce3Default.default)(),
+            look: new (0, _oldForce3Default.default)()
+        };
+        this.up.set(0, 1, 0);
+    }
+    updatePosition() {
+        this.position.copy(this.force.position.velocity);
+    }
+    updateLook() {
+        this.lookAt(this.force.look.velocity.x, this.force.look.velocity.y, this.force.look.velocity.z);
+    }
+    reset() {
+        this.setPolarCoord();
+        this.lookAtCenter();
+    }
+    resize(width, height) {
+        this.aspect = width / height;
+        this.updateProjectionMatrix();
+    }
+    setPolarCoord(rad1, rad2, range) {
+        this.force.position.anchor.copy((0, _utilDefault.default).getPolarCoord(rad1, rad2, range));
+    }
+    lookAtCenter() {
+        this.lookAt(0, 0, 0);
+    }
+}
+exports.default = ForceCamera;
+
+},{"three":"ktPTu","./util":"eM1b6","./oldForce3":"d9vPN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eM1b6":[function(require,module,exports) {
+const THREE = require("dd37b23e6dfdd100");
+module.exports = {
+    getRandomInt: function(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    },
+    getDegree: function(radian) {
+        return radian / Math.PI * 180;
+    },
+    getRadian: function(degrees) {
+        return degrees * Math.PI / 180;
+    },
+    getPolarCoord: function(rad1, rad2, r) {
+        var x = Math.cos(rad1) * Math.cos(rad2) * r;
+        var z = Math.cos(rad1) * Math.sin(rad2) * r;
+        var y = Math.sin(rad1) * r;
+        return new THREE.Vector3(x, y, z);
+    }
+};
+
+},{"dd37b23e6dfdd100":"ktPTu"}],"lkwiO":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _three = require("three");
@@ -31320,9 +31355,9 @@ class ForceHemisphereLight extends _three.HemisphereLight {
 }
 exports.default = ForceHemisphereLight;
 
-},{"three":"ktPTu","./util":"eM1b6","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./oldForce3":"d9vPN"}],"5gFfU":[function(require,module,exports) {
-module.exports = require("e83a99c47c5c1dfc").getBundleURL("duvxv") + "image01.64e08d10.jpg" + "?" + Date.now();
+},{"three":"ktPTu","./util":"eM1b6","./oldForce3":"d9vPN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5gFfU":[function(require,module,exports) {
+module.exports = require("ea248b2fa31b7456").getBundleURL("duvxv") + "image01.64e08d10.jpg" + "?" + Date.now();
 
-},{"e83a99c47c5c1dfc":"lgJ39"}]},["7xxw3","g54gV"], "g54gV", "parcelRequiree85a")
+},{"ea248b2fa31b7456":"lgJ39"}]},["7xxw3","g54gV"], "g54gV", "parcelRequiree85a")
 
 //# sourceMappingURL=events.ac8e3386.js.map
