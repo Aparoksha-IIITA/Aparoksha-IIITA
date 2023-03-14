@@ -1,20 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APK-23</title>
+    <link rel="stylesheet" href="/events.6bac7418.css">
+    <link rel="stylesheet" href="/events.ebe6a1ee.css">
+  </head>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>APK-23</title>
-        <link rel="stylesheet" href="/events.6bac7418.css">
-    </head>
+  <body data-page="index">
+    <div class="fixed z-10 w-8 h-8 right-0 bg-red-400" id="hamburger"></div>
+    <nav class="menu opened">
+      <div class="container">
+            <ul>
+              <li>
+                <small>01</small>
+                <a href="./">Home</a><span>Home</span>
+              </li>
 
-    <body data-page="index">
+              <li>
+                <small>02</small>
+                <a href="/events.html">Events</a><span>Events</span>
+              </li>
 
-        <main class="js-contents"></main>
-        <div class="js-dummy-scroll"></div>
-        <canvas id="canvas"></canvas>
-        <script src="/events.ac8e3386.js" async="" defer=""></script>
-    </body>
+              <li>
+                <small>03</small>
+                <a href="/gallery.html">Gallery</a><span>Gallery</span>
+              </li>
 
+              <li>
+                <small>04</small>
+                <a href="">page4</a><span>page4</span>
+              </li>
+              <li>
+                <small>05</small>
+                <a href="">page5</a><span>page5</span>
+              </li>
+            </ul>
+          </div>
+      
+    </nav>
+    <main class="js-contents"></main>
+    <div class="js-dummy-scroll"></div>
+    <canvas id="canvas"></canvas>
+    <script src="/events.ac8e3386.js" async="" defer=""></script>
+    <script>const hamburger = document.querySelector("#hamburger");
+const menu = document.querySelector(".menu");
+hamburger.addEventListener("click", ()=>menu.classList.toggle("show-menu"));
+
+</script>
+  </body>
 </html>

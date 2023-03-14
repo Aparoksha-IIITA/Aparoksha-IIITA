@@ -1,7 +1,7 @@
 import eventData from "../../json/eventData.json";
 
 export default function init() {
-  const eventList = [...document.querySelectorAll("li")];
+  const eventList = [...document.querySelectorAll("main li")];
 
   const eventName = document.querySelector("#event-heading");
   const eventDescription = document.querySelector("#event-description");

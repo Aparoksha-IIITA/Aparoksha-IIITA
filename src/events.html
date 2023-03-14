@@ -1,40 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style/index.css" />
+    <link rel="stylesheet" href="./style/events.css" />
+    <link rel="stylesheet" href="./style/hamburger.css" />
+    <title>Document</title>
+  </head>
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="./style/index.css">
-        <link rel="stylesheet" href="./style/events.css">
-        <title>Document</title>
-    </head>
-
-    <body data-page="events">
-
-        <main>
+  <body data-page="events">
+    <div class="fixed z-10 w-8 h-8 right-0 bg-red-400" id = "hamburger"></div>
+    <nav class="menu opened">
+      <div class="container">
             <ul>
-                <li>Event 1</li>
-                <li>Event 2</li>
-                <li>Event 3</li>
-                <li>Event 4</li>
-                <li>Event 5</li>
-                <li>Event 6</li>
-                <li>Event 7</li>
-                <li>Event 8</li>
+              <li>
+                <small>01</small>
+                <a href="./">Home</a><span>Home</span>
+              </li>
+
+              <li>
+                <small>02</small>
+                <a href="./events.html">Events</a><span>Events</span>
+              </li>
+
+              <li>
+                <small>03</small>
+                <a href="./gallery.html">Gallery</a><span>Gallery</span>
+              </li>
+
+              <li>
+                <small>04</small>
+                <a href="">page4</a><span>page4</span>
+              </li>
+              <li>
+                <small>05</small>
+                <a href="">page5</a><span>page5</span>
+              </li>
             </ul>
-        </main>
+          </div>
+      </div>
+    </nav>
+    <main>
+      <ul>
+        <li>
+          <!-- <small>01</small> -->
+          <a href="">Event 1</a><span>Event 1</span>
+        </li>
+        <li>
+          <!-- <small>02</small> -->
+          <a href="">Event 2</a><span>Event 2</span>
+        </li>
+        <li>
+          <!-- <small>03</small> -->
+          <a href="">Event 3</a><span>Event 3</span>
+        </li>
+        <li>
+          <!-- <small>04</small> -->
+          <a href="">Event 4</a><span>Event 4</span>
+        </li>
+        <li>
+          <!-- <small>05</small> -->
+          <a href="">Event 5</a><span>Event 5</span>
+        </li>
+        <li>
+          <!-- <small>06</small> -->
+          <a href="">Event 6</a><span>Event 6</span>
+        </li>
+        <li>
+          <!-- <small>07</small> -->
+          <a href="">Event 7</a><span>Event 7</span>
+        </li>
+        <li>
+          <!-- <small>08</small> -->
+          <a href="">Event 8</a><span>Event 8</span>
+        </li>
+      </ul>
+    </main>
 
-        <div id="description">
-            <h2 id="event-heading">Aproksha</h2>
-            <h3 id="event-description-heading">Description</h3>
-            <p id="event-description">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
-                recusandae soluta natus, qui saepe numquam nesciunt vero eum incidunt,
-                nisi exercitationem iure non. Nulla nobis quis quam nihil eius fugit.
-            </p>
-        </div>
-        <script src="./script/main.js" async defer type="module"></script>
-    </body>
-
+    <div id="description">
+      <h2 id="event-heading">Aproksha</h2>
+      <h3 id="event-description-heading">Description</h3>
+      <p id="event-description">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+        recusandae soluta natus, qui saepe numquam nesciunt vero eum incidunt,
+        nisi exercitationem iure non. Nulla nobis quis quam nihil eius fugit.
+      </p>
+    </div>
+    <script src="./script/main.js" async defer type="module"></script>
+    <script>
+      const hamburger = document.querySelector("#hamburger");
+      const menu = document.querySelector(".menu");
+      hamburger.addEventListener("click", () => menu.classList.toggle("show-menu"));
+    </script>
+  </body>
 </html>

@@ -9,4 +9,7 @@ switch (page) {
   case "gallery":
     require("./gallery").default();
     break;
+  case "test":
+    require('./test').default();
+    break;
 }

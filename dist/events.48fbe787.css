@@ -5,11 +5,8 @@
 
 * {
   box-sizing: border-box;
-  color: purple;
   margin: 0;
   padding: 0;
-  font-family: Ogg;
-  font-size: 1.5rem;
 }
 
 html, body {
@@ -25,12 +22,15 @@ canvas {
 main {
   width: 50%;
   height: 100vh;
+  color: purple;
+  font-family: Ogg;
+  font-size: 1.5rem;
   position: fixed;
   top: 0;
   left: 0;
 }
 
-ul {
+main ul {
   height: 60%;
   width: 80%;
   flex-direction: column;
@@ -42,7 +42,7 @@ ul {
   left: 10%;
 }
 
-ul li {
+main ul li {
   cursor: pointer;
   border-bottom: 1px solid #e600ff1e;
   transition: all 1s;
@@ -50,27 +50,93 @@ ul li {
   opacity: 1 !important;
 }
 
-ul li:hover {
+main ul li:hover {
   opacity: 1 !important;
+}
+
+main ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+main ul li {
+  background-image: none;
+  margin: 0;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  line-height: normal;
+  list-style: none;
+  position: relative;
+}
+
+main ul li small {
+  text-transform: uppercase;
+  outline: 0;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-weight: 900;
+  display: block;
+}
+
+main ul li a {
+  text-transform: uppercase;
+  font-family: Montserrat;
+  font-size: calc(8px + 2.1vw);
+  font-weight: 900;
+  line-height: calc(18px + 1.8vw);
+  text-decoration: none;
+  transition: color .3s linear;
+}
+
+main li:hover > span {
+  opacity: 1;
+}
+
+main ul li span {
+  text-transform: uppercase;
+  -webkit-text-stroke: 1px #63636373;
+  -webkit-text-fill-color: #fff0;
+  text-shadow: none;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+  font-size: 4.7vw;
+  line-height: 3.1vw;
+  transition: opacity .2s linear;
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  font-family: mont !important;
+  font-weight: bold !important;
 }
 
 #description {
   width: 50%;
   height: 100vh;
+  color: purple;
   padding: 2rem;
+  font-family: Ogg;
+  font-size: 1.5rem;
   position: fixed;
   right: 0;
 }
 
 #event-heading {
   text-align: center;
+  color: purple;
   border-bottom: 2px solid #e600ff1e;
   margin-bottom: 2rem;
+  font-family: Ogg;
+  font-size: 1.5rem;
 }
 
 #event-description-heading {
+  color: purple;
   border-bottom: 1px solid #e600ff1e;
   margin-bottom: .5rem;
+  font-family: Ogg;
+  font-size: 1.5rem;
 }
 
 /*# sourceMappingURL=events.48fbe787.css.map */

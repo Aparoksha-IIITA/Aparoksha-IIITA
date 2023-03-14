@@ -1,0 +1,101 @@
+.menu {
+  opacity: 0;
+  z-index: 7;
+  width: 100%;
+  height: 100%;
+  background-color: #101011;
+  padding-top: 64px;
+  transition: transform .6s linear, opacity .3s linear;
+  position: fixed;
+  top: 0;
+  transform: translateX(100%);
+}
+
+.show-menu {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5vw;
+}
+
+.menu.show-menu .row {
+  transform: translateY(0);
+}
+
+.menu ul {
+  color: #fff;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.menu ul li {
+  opacity: 0;
+  margin-bottom: 2.4vw;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  transition: transform .5s linear .3s, opacity .3s linear .3s;
+  position: relative;
+  transform: translateX(200px);
+}
+
+.show-menu ul li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.menu ul li {
+  background-image: none;
+  margin: 0;
+  line-height: normal;
+  list-style: none;
+}
+
+.menu ul li small {
+  text-transform: uppercase;
+  outline: 0;
+  margin-bottom: 11px;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-weight: 900;
+  display: block;
+}
+
+.menu ul li a {
+  text-transform: uppercase;
+  font-family: Montserrat;
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 32px;
+  text-decoration: none;
+  transition: color .3s linear;
+}
+
+.menu li:hover > span {
+  opacity: 1;
+}
+
+.menu ul li span {
+  text-transform: uppercase;
+  -webkit-text-stroke: 1px #63636373;
+  -webkit-text-fill-color: #fff0;
+  text-shadow: none;
+  z-index: -1;
+  opacity: 0;
+  pointer-events: none;
+  font-size: 64px;
+  line-height: 36px;
+  transition: opacity .2s linear;
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  font-family: mont !important;
+  font-weight: bold !important;
+}
+
+/*# sourceMappingURL=events.ebe6a1ee.css.map */

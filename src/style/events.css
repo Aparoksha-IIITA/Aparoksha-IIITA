@@ -1,80 +1,160 @@
 @font-face {
-    font-family: "Ogg";
-    src: url(../assets/fonts/Ogg-Custom.woff2) format("woff2");
+  font-family: "Ogg";
+  src: url(../assets/fonts/Ogg-Custom.woff2) format("woff2");
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Ogg";
-    font-size: 1.5rem;
-    color: purple;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html,
 body {
-    background-color: #131313;
+  background-color: #131313;
 }
 
 canvas {
-    opacity: 1;
-    position: absolute;
-    z-index: -2;
+  opacity: 1;
+  position: absolute;
+  z-index: -2;
 }
 
 main {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 50%;
-    height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100vh;
+  font-family: "Ogg";
+  font-size: 1.5rem;
+  color: purple;
 }
 
-ul {
-    position: absolute;
-    left: 10%;
-    top: 20%;
-    height: 60%;
-    width: 80%;
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+main ul {
+  position: absolute;
+  left: 10%;
+  top: 20%;
+  height: 60%;
+  width: 80%;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-ul li {
-    position: relative;
-    /* border-bottom: 1px solid rgba(0, 0, 0, 0.118); */
-    border-bottom: 1px solid rgba(230, 0, 255, 0.118);
-    cursor: pointer;
-    transition: 1s;
-    opacity: 1 !important;
+main ul li {
+  position: relative;
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.118); */
+  border-bottom: 1px solid rgba(230, 0, 255, 0.118);
+  cursor: pointer;
+  transition: 1s;
+  opacity: 1 !important;
 }
 
-ul li:hover {
-    opacity: 1 !important;
+main ul li:hover {
+  opacity: 1 !important;
+}
+
+main ul {
+  padding-left: 0;
+  list-style: none;
+  margin: 0;
+  /* color: white; */
+}
+
+main ul li {
+  position: relative;
+  /* background-color: blue; */
+  padding-top: 4px;
+  padding-bottom: 4px;
+  /* margin-bottom: -100px; */
+}
+
+main ul li {
+  list-style: none;
+  background-image: none;
+  margin: 0;
+  /* padding: 0; */
+  line-height: normal;
+}
+
+main ul li small {
+  display: block;
+  font-family: Montserrat;
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: uppercase;
+  /* margin-bottom: -8px; */
+  outline: 0;
+}
+
+main ul li a {
+  font-size: calc(8px + 2.1vw);
+  line-height: calc(18px + 1.8vw);
+  text-transform: uppercase;
+  font-weight: 900;
+  text-decoration: none;
+  font-family: Montserrat;
+}
+
+main ul li a {
+  transition: color 300ms linear;
+}
+
+main li:hover > span {
+  opacity: 1;
+}
+
+main ul li span {
+  font-weight: bold;
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 0;
+  -webkit-text-stroke: 1px rgba(99, 99, 99, 0.45);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0);
+  text-shadow: none;
+  /* font-size: 18.4vw; */
+  /* line-height: 12vw; */
+  font-family: mont !important;
+  font-weight: bold !important;
+  font-size: 4.7vw;
+  line-height: 3.1vw;
+  z-index: -1;
+  left: 10%;
+  transition: opacity 200ms linear;
+  opacity: 0;
+  pointer-events: none;
 }
 
 #description {
-    position: fixed;
-    width: 50%;
-    height: 100vh;
-    right: 0;
-    padding: 2rem;
-    /* margin-bottom: 16rem; */
-    /* background-color: green; */
+  position: fixed;
+  width: 50%;
+  height: 100vh;
+  right: 0;
+  padding: 2rem;
+  font-family: "Ogg";
+  font-size: 1.5rem;
+  color: purple;
+  /* margin-bottom: 16rem; */
+  /* background-color: green; */
 }
 
 #event-heading {
-    /* padding: 300px, 32px, 32px, 32px; */
-    /* background-color: red; */
-    text-align: center;
-    border-bottom: 2px solid rgba(230, 0, 255, 0.118);
-    margin-bottom: 2rem;
+  /* padding: 300px, 32px, 32px, 32px; */
+  /* background-color: red; */
+  text-align: center;
+  border-bottom: 2px solid rgba(230, 0, 255, 0.118);
+  margin-bottom: 2rem;
+  font-family: "Ogg";
+  font-size: 1.5rem;
+  color: purple;
 }
 
 #event-description-heading {
-    border-bottom: 1px solid rgba(230, 0, 255, 0.118);
-    margin-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(230, 0, 255, 0.118);
+  margin-bottom: 0.5rem;
+  font-family: "Ogg";
+  font-size: 1.5rem;
+  color: purple;
 }

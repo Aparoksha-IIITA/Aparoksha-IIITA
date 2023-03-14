@@ -31,7 +31,8 @@ export default function index() {
   const textureFour = new THREE.TextureLoader().load(images.imageFour);
 
   let container = document.querySelector("main");
-  let links = [...document.querySelectorAll("li")];
+  let links = [...document.querySelectorAll("main li")];
+  console.log(links);
   let perspective = 1000;
   let sizes = new THREE.Vector2(0, 0);
   let linkHovered = false;
@@ -170,7 +171,7 @@ export default function index() {
 
   function init() {
     eventDataInit();
-    addEventListeners(document.querySelector("ul"));
+    addEventListeners(document.querySelector("main ul"));
     onMouseMove();
     renderLoop();
     updateMeshDimensions();
