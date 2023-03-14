@@ -10,6 +10,6 @@ switch (page) {
     require("./gallery").default();
     break;
   case "test":
-    require('./test').default();
+    require("./test");
     break;
 }
