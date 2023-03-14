@@ -560,20 +560,20 @@ function hmrAccept(bundle, id) {
 let page = document.querySelector("body").dataset.page;
 switch(page){
     case "index":
-        require("a8e6600b6abef9a2").default();
+        require("1f687724d927ddb1").default();
         break;
     case "events":
-        require("b58a8a66404b9c20").default();
+        require("e6349159a62bc390").default();
         break;
     case "gallery":
-        require("cecb3a810eaf10e7").default();
+        require("a984e6bc7efcb8").default();
         break;
     case "test":
-        require("b2f8e40998e765c9").default();
+        require("86f65a0d6817a431").default();
         break;
 }
 
-},{"a8e6600b6abef9a2":"5yj01","b58a8a66404b9c20":"djN8F","cecb3a810eaf10e7":"zntW9","b2f8e40998e765c9":"kJt3f"}],"5yj01":[function(require,module,exports) {
+},{"1f687724d927ddb1":"5yj01","e6349159a62bc390":"djN8F","a984e6bc7efcb8":"zntW9","86f65a0d6817a431":"kJt3f"}],"5yj01":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _three = require("three");
@@ -721,7 +721,7 @@ function index() {
 }
 exports.default = index;
 
-},{"three":"ktPTu","@ykob/js-util":"cxomY","./superhero":"9E9g4","./hand":"jc8mC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","gsap":"fPSuC"}],"ktPTu":[function(require,module,exports) {
+},{"three":"ktPTu","@ykob/js-util":"cxomY","./superhero":"9E9g4","./hand":"jc8mC","gsap":"fPSuC","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ktPTu":[function(require,module,exports) {
 /**
  * @license
  * Copyright 2010-2023 Three.js Authors
@@ -30276,7 +30276,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "SuperHero", ()=>SuperHero);
 var _objloader = require("three/examples/jsm/loaders/OBJLoader");
 var _three = require("three");
-let superhero = new URL(require("95b4a0bb45e24f93"));
+let superhero = new URL(require("2a35a11c9cafb523"));
 class SuperHero {
     constructor(){
         this.obj;
@@ -30301,7 +30301,7 @@ class SuperHero {
     }
 }
 
-},{"three/examples/jsm/loaders/OBJLoader":"htIhD","three":"ktPTu","95b4a0bb45e24f93":"1FvOj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"htIhD":[function(require,module,exports) {
+},{"three/examples/jsm/loaders/OBJLoader":"htIhD","three":"ktPTu","2a35a11c9cafb523":"1FvOj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"htIhD":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "OBJLoader", ()=>OBJLoader);
@@ -30779,9 +30779,9 @@ class OBJLoader extends (0, _three.Loader) {
 }
 
 },{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1FvOj":[function(require,module,exports) {
-module.exports = require("e89c8c87d1e116a1").getBundleURL("duvxv") + "superhero.706f1abe.obj" + "?" + Date.now();
+module.exports = require("51138c4a63c06775").getBundleURL("duvxv") + "superhero.706f1abe.obj" + "?" + Date.now();
 
-},{"e89c8c87d1e116a1":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+},{"51138c4a63c06775":"lgJ39"}],"lgJ39":[function(require,module,exports) {
 "use strict";
 var bundleURL = {};
 function getBundleURLCached(id) {
@@ -30821,7 +30821,7 @@ parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "Hand", ()=>Hand);
 var _objloader = require("three/examples/jsm/loaders/OBJLoader");
 var _three = require("three");
-let hand = new URL(require("b9cf3d98ca0c9cb"));
+let hand = new URL(require("ba4340c2c4666b4c"));
 class Hand {
     constructor(){
         this.obj;
@@ -30838,10 +30838,10 @@ class Hand {
     }
 }
 
-},{"three/examples/jsm/loaders/OBJLoader":"htIhD","three":"ktPTu","b9cf3d98ca0c9cb":"1y3tf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1y3tf":[function(require,module,exports) {
-module.exports = require("451e15491d8924db").getBundleURL("duvxv") + "Hand.8b05ec1a.obj" + "?" + Date.now();
+},{"three/examples/jsm/loaders/OBJLoader":"htIhD","three":"ktPTu","ba4340c2c4666b4c":"1y3tf","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1y3tf":[function(require,module,exports) {
+module.exports = require("e271a4039ac69208").getBundleURL("duvxv") + "Hand.8b05ec1a.obj" + "?" + Date.now();
 
-},{"451e15491d8924db":"lgJ39"}],"fPSuC":[function(require,module,exports) {
+},{"e271a4039ac69208":"lgJ39"}],"fPSuC":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "gsap", ()=>gsapWithCSS);
@@ -34976,18 +34976,18 @@ function index() {
 exports.default = index;
 
 },{"three":"ktPTu","../../assets/images/1.jpeg":"kZ7ER","../../assets/images/2.jpeg":"cUSnx","../../assets/images/3.jpeg":"ePbol","../../assets/images/4.jpeg":"k7Ugv","./glsl/image.vert":"gz2Dl","./glsl/image.frag":"bU1W7","./eventDetails":"dInx8","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kZ7ER":[function(require,module,exports) {
-module.exports = require("15355959f1d4da42").getBundleURL("duvxv") + "1.f8a1e8ca.jpeg" + "?" + Date.now();
+module.exports = require("c53407b8f705cb6").getBundleURL("duvxv") + "1.f8a1e8ca.jpeg" + "?" + Date.now();
 
-},{"15355959f1d4da42":"lgJ39"}],"cUSnx":[function(require,module,exports) {
-module.exports = require("389606e71aab1c26").getBundleURL("duvxv") + "2.c36ee1c3.jpeg" + "?" + Date.now();
+},{"c53407b8f705cb6":"lgJ39"}],"cUSnx":[function(require,module,exports) {
+module.exports = require("a882fc192f569bb8").getBundleURL("duvxv") + "2.c36ee1c3.jpeg" + "?" + Date.now();
 
-},{"389606e71aab1c26":"lgJ39"}],"ePbol":[function(require,module,exports) {
-module.exports = require("896d9281308a3012").getBundleURL("duvxv") + "3.ad2a0192.jpeg" + "?" + Date.now();
+},{"a882fc192f569bb8":"lgJ39"}],"ePbol":[function(require,module,exports) {
+module.exports = require("4ff18340605a8b91").getBundleURL("duvxv") + "3.ad2a0192.jpeg" + "?" + Date.now();
 
-},{"896d9281308a3012":"lgJ39"}],"k7Ugv":[function(require,module,exports) {
-module.exports = require("50d446e2c1e7a536").getBundleURL("duvxv") + "4.7c533042.jpeg" + "?" + Date.now();
+},{"4ff18340605a8b91":"lgJ39"}],"k7Ugv":[function(require,module,exports) {
+module.exports = require("56487afb53c5a7e2").getBundleURL("duvxv") + "4.7c533042.jpeg" + "?" + Date.now();
 
-},{"50d446e2c1e7a536":"lgJ39"}],"gz2Dl":[function(require,module,exports) {
+},{"56487afb53c5a7e2":"lgJ39"}],"gz2Dl":[function(require,module,exports) {
 module.exports = "#define GLSLIFY 1\nuniform sampler2D uTexture;\nuniform vec2 uOffset;\nvarying vec2 vUv;\n\nfloat M_PI = 3.141529;\n\nvec3 deformationCurve(vec3 position, vec2 uv, vec2 offset){\n    position.x = position.x + (sin(uv.y * M_PI) * offset.x);\n    position.y = position.y + (sin(uv.x * M_PI) * offset.y);\n    \n    return position;\n}\n\nvoid main(){\n    vUv = uv;\n    vec3 newPosition = deformationCurve(position, uv, uOffset);\n    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);\n    //change position to newPosition to get curve effect.\n}";
 
 },{}],"bU1W7":[function(require,module,exports) {
@@ -35267,7 +35267,7 @@ exports.default = function(vector) {
 };
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"d9vPN":[function(require,module,exports) {
-const THREE = require("4082a26084e26ace");
+const THREE = require("cec82fc48c2305d1");
 var exports = function() {
     var Force = function() {
         this.velocity = new THREE.Vector3();
@@ -35308,7 +35308,7 @@ var exports = function() {
 };
 module.exports = exports();
 
-},{"4082a26084e26ace":"ktPTu"}],"iJKvg":[function(require,module,exports) {
+},{"cec82fc48c2305d1":"ktPTu"}],"iJKvg":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _three = require("three");
@@ -35349,7 +35349,7 @@ class ForceCamera extends _three.PerspectiveCamera {
 exports.default = ForceCamera;
 
 },{"three":"ktPTu","./util":"eM1b6","./oldForce3":"d9vPN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"eM1b6":[function(require,module,exports) {
-const THREE = require("dd37b23e6dfdd100");
+const THREE = require("28b7cf7b7156909f");
 module.exports = {
     getRandomInt: function(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
@@ -35368,7 +35368,7 @@ module.exports = {
     }
 };
 
-},{"dd37b23e6dfdd100":"ktPTu"}],"lkwiO":[function(require,module,exports) {
+},{"28b7cf7b7156909f":"ktPTu"}],"lkwiO":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _three = require("three");
@@ -35391,9 +35391,9 @@ class ForceHemisphereLight extends _three.HemisphereLight {
 exports.default = ForceHemisphereLight;
 
 },{"three":"ktPTu","./util":"eM1b6","./oldForce3":"d9vPN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"5gFfU":[function(require,module,exports) {
-module.exports = require("ea248b2fa31b7456").getBundleURL("duvxv") + "image01.64e08d10.jpg" + "?" + Date.now();
+module.exports = require("eae9e485ed7d8530").getBundleURL("duvxv") + "image01.64e08d10.jpg" + "?" + Date.now();
 
-},{"ea248b2fa31b7456":"lgJ39"}],"kJt3f":[function(require,module,exports) {
+},{"eae9e485ed7d8530":"lgJ39"}],"kJt3f":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _three = require("three");
 var _datGui = require("dat.gui");
@@ -35823,7 +35823,7 @@ onFrame();
 // setupGUI();
 addRenderTargetImage();
 
-},{"three":"ktPTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","dat.gui":"k3xQk","three/examples/jsm/postprocessing/ShaderPass.js":"5IxTN","three/examples/jsm/shaders/VerticalBlurShader.js":"fnAnt","three/examples/jsm/shaders/HorizontalBlurShader":"LnohC","three/examples/jsm/postprocessing/EffectComposer.js":"e5jie","three/examples/jsm/postprocessing/RenderPass":"hXnUO","three/examples/jsm/postprocessing/UnrealBloomPass":"3iDYE","three/examples/jsm/shaders/FilmShader":"fQttT","three/examples/jsm/geometries/TextGeometry.js":"d5vi9"}],"k3xQk":[function(require,module,exports) {
+},{"three":"ktPTu","dat.gui":"k3xQk","three/examples/jsm/postprocessing/ShaderPass.js":"5IxTN","three/examples/jsm/shaders/VerticalBlurShader.js":"fnAnt","three/examples/jsm/shaders/HorizontalBlurShader":"LnohC","three/examples/jsm/postprocessing/EffectComposer.js":"e5jie","three/examples/jsm/postprocessing/RenderPass":"hXnUO","three/examples/jsm/postprocessing/UnrealBloomPass":"3iDYE","three/examples/jsm/shaders/FilmShader":"fQttT","three/examples/jsm/geometries/TextGeometry.js":"d5vi9","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k3xQk":[function(require,module,exports) {
 /**
  * dat-gui JavaScript Controller Library
  * https://github.com/dataarts/dat.gui
